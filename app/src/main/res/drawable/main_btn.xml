@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/token_default" android:state_enabled="true"></item>
+    <item android:drawable="@drawable/token_inactive" android:state_enabled="false"></item>
+    <item android:drawable="@drawable/token_green" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/token_red" android:state_pressed="false"></item>
+</selector>
