@@ -61,8 +61,10 @@ import android.widget.Toast;
 
 import org.mcopenplatform.muoapi.IMCOPCallback;
 import org.mcopenplatform.muoapi.IMCOPsdk;
-import org.test.client.mcopclient.datatype.UserData;
-import org.test.client.mcopclient.preference.PreferencesManagerDefault;
+import org.test.client.mcopclient.model.UserData;
+import org.test.client.mcopclient.model.ConstantsMCOP;
+import org.test.client.mcopclient.model.calls.CallEvent;
+import org.test.client.mcopclient.controller.preferences.PreferencesManagerDefault;
 
 import java.net.URI;
 import java.net.URISyntaxException;

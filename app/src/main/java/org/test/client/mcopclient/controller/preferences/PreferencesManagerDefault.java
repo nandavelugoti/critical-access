@@ -20,7 +20,7 @@
  *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package org.test.client.mcopclient.preference;
+package org.test.client.mcopclient.controller.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

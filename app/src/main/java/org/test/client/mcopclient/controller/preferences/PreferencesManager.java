@@ -20,7 +20,7 @@
  *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package org.test.client.mcopclient.preference;
+package org.test.client.mcopclient.controller.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,7 +34,6 @@ public class PreferencesManager {
     protected static PreferencesManager mPreferencesManager=null;
     private  String PREFERENCE_ID=TAG+"PREFERENCE_ID";
     public static final String  STRING_DEFAULT=TAG+".STRING_DEFAULT";
-
 
 
     SharedPreferences sharedPref;
