@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.test.client.mcopclient.MainActivity">
+
+    <item
+        android:id="@+id/action_registration"
+        android:orderInCategory="300"
+        android:title="@string/option_registration"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_auto_reg"
+        android:title="@string/option_auto_reg"
+        android:orderInCategory="400"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_about"
+        android:title="@string/option_about"
+        android:orderInCategory="500"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_exit"
+        android:title="@string/option_exit"
+        android:orderInCategory="600"
+        app:showAsAction="never"/>
+</menu>

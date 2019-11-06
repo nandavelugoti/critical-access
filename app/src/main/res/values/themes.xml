@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SwitchCompatTheme" >
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="thumbTint">@color/colorPrimaryLight</item>
+    </style>
+    <style name="SwitchERTheme" >
+        <item name="colorControlActivated">@color/colorER</item>
+        <item name="thumbTint">@color/colorER</item>
+    </style>
+</resources>

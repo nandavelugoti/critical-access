@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--*
+    *
+    *   Copyright (C) 2018, University of the Basque Country (UPV/EHU)
+    *
+    *  Contact for licensing options: <licensing-mcpttclient(at)mcopenplatform(dot)com>
+    *
+    *  This file is part of MCOP MCPTT Client
+    *
+    *  This is free software: you can redistribute it and/or modify it under the terms of
+    *  the GNU General Public License as published by the Free Software Foundation, either version 3
+    *  of the License, or (at your option) any later version.
+    *
+    *  This is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    *  See the GNU General Public License for more details.
+    *
+    *  You should have received a copy of the GNU General Public License along
+    *  with this program; if not, write to the Free Software Foundation, Inc.,
+    *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+    *
+    *-->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="org.test.client.mcopclient.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/screen_menu_toolbar_AppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/screen_menu_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <RelativeLayout
+                android:id="@+id/screen_menu_toolbar_mcop_logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical">
+
+                <ImageView
+                    android:id="@+id/logoMCOP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mcop_logo" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="68dp"
+        android:id="@+id/background"
+        android:background="@color/background">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="2dp"
+            tools:ignore="MissingConstraints">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_eMBMS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/text_eMBMS"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_weight="1"
+                    android:text="@string/text_status"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/emergency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/text_status"
+                    android:layout_toRightOf="@id/reg_eMBMS"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="@string/Emergency"
+                    android:textStyle="bold"
+                    android:textColor="@color/background"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/reg_eMBMS"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="70dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/reg_status"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="21dp" />
+
+                <Button
+                    android:id="@+id/reg_status"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/reg_status"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="21dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="1dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_talking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_talking"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"/>
+                <TextView
+                    android:id="@+id/text_callingid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp">
+
+                <Button
+                    android:id="@+id/btn_register"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_btn"
+                    android:text="@string/btn_register"
+                    android:textSize="10sp"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+
+                <Button
+                    android:id="@+id/btn_unregister"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_btn"
+                    android:text="@string/btn_unregister"
+                    android:textSize="10sp"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="85dp">
+
+                <Button
+                    android:id="@+id/btn_accept"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_btn"
+                    android:text="@string/btn_accept"
+                    android:textSize="10sp"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+
+                <Button
+                    android:id="@+id/btn_call"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/token_inactive"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+
+                <Button
+                    android:id="@+id/btn_hangup"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_btn"
+                    android:text="@string/btn_hangup"
+                    android:textSize="10sp"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp">
+
+                <Button
+                    android:id="@+id/btn_speaker"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_btn"
+                    android:text="@string/btn_speaker_off"
+                    android:textSize="10sp"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+
+                <Button
+                    android:id="@+id/btn_er"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_btn"
+                    android:text="@string/btn_er"
+                    android:textSize="10sp"
+                    tools:layout_editor_absoluteX="85dp"
+                    tools:layout_editor_absoluteY="85dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/switch_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/switch_group"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_call"
+                    style="@style/SwitchCompatTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/switch_private"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/switch_private"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinnerGroups"
+                    android:layout_width="368dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:enabled="false" />
+
+                <Spinner
+                    android:id="@+id/spinnerUsers"
+                    android:layout_width="368dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#bebebe"/>
+
+                <TextView
+                    android:id="@+id/text_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#bebebe"/>
+
+                <TextView
+                    android:id="@+id/text_affiliation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#bebebe"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>
