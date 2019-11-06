@@ -19,7 +19,7 @@
  *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package org.test.client.mcopclient;
+package org.test.client.mcopclient.view;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -29,6 +29,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+
+import org.test.client.mcopclient.BuildConfig;
+import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.Utils;
 
 import java.util.ArrayList;
 

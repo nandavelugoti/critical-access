@@ -29,21 +29,21 @@ import java.util.List;
 import java.util.Map;
 
 
-public class UserData {
+public class User {
     private String mcpttID;
     private String displayName;
     private Map<String,String> sessionIDs;
     private boolean isRegisted;
+    private ArrayList<String> groups;
 
-
-    public UserData(String mcpttID, String displayName) {
+    public User(String mcpttID, String displayName) {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
         sessionIDs=new HashMap<String,String>();
     }
 
 
-    public UserData(String mcpttID, String displayName, boolean isRegisted) {
+    public User(String mcpttID, String displayName, boolean isRegisted) {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
         this.isRegisted = isRegisted;
@@ -51,7 +51,7 @@ public class UserData {
     }
 
 
-    public UserData() {
+    public User() {
         sessionIDs=new HashMap<String,String>();
     }
 
@@ -93,8 +93,11 @@ public class UserData {
         this.sessionIDs.remove(sessionIDs);
     }
 
-
     public void addSessionID(String sessionIDs) {
         this.sessionIDs.put(sessionIDs,sessionIDs);
+    }
+
+    public void addGroup(String group) {
+        groups.add(group);
     }
 }

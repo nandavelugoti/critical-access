@@ -21,7 +21,7 @@
  */
 
 
-package org.test.client.mcopclient;
+package org.test.client.mcopclient.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +37,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
+import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.Utils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
