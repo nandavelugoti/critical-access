@@ -8,7 +8,7 @@ public class Group {
     private String groupName;
     private String displayName;
     private boolean isBroadcast;
-    public List<User> users = new ArrayList<User>();
+    public List<User> users = new ArrayList<>();
 
     public String getID(){
         return id;

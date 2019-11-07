@@ -1,7 +1,11 @@
 package org.test.client.mcopclient.model.calls;
 
-public class GroupCall extends Call {
-    GroupCall() {
+import android.os.RemoteException;
+import android.util.Log;
+import org.test.client.mcopclient.model.ConstantsMCOP;
 
+public class GroupCall extends Call {
+
+    GroupCall() {
     }
 }
