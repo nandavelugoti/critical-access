@@ -25,10 +25,6 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
         this.mData = mData;
     }
 
-    public void setData(List<User> mData){
-        this.mData = mData;
-    }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

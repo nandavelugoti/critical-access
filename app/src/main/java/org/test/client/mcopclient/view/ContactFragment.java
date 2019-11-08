@@ -66,7 +66,9 @@ public class ContactFragment extends Fragment {
                         filtered.add(user);
                     }
                 }
-                recyclerViewAdapter.setData(filtered);
+                //recyclerViewAdapter.setData(filtered);
+                UserRecyclerViewAdapter filteredrecyclerViewAdapter = new UserRecyclerViewAdapter(getContext(), filtered);
+                myRecyclerView.setAdapter(filteredrecyclerViewAdapter);
             }
 
             @Override

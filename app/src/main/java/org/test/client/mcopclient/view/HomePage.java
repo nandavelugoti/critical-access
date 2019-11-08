@@ -37,7 +37,7 @@ public class HomePage extends AppCompatActivity {
         final BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setHideable(true);
         behavior.setPeekHeight(200);
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
     }
 
