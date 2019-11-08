@@ -451,7 +451,6 @@ public class ConstantsMCOP {
                 this.code = code;
             }
 
-
             public int getValue() {
                 return code;
             }
