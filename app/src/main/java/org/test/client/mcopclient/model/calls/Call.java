@@ -4,6 +4,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import org.mcopenplatform.muoapi.IMCOPsdk;
+import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.view.MainActivity;
 import org.test.client.mcopclient.model.ConstantsMCOP;
@@ -13,22 +14,29 @@ public class Call implements Callable {
     private String selUser = "sip:mcptt_id_iit2_A@organization.org";
     private String selGroup = "sip:iit2_group@organization.org";
 
-    IMCOPsdk mService;
+    private IMCOPsdk mService;
     private enum CallType {
         PRIVATE,
         GROUP,
         BROADCAST,
-        AMBIENT,
+        // AMBIENT,
         CHATGROUP
     }
     private CallType mCallType = CallType.GROUP;
 
-    int priority;  // 0 = Normal Call, 1 = Imminent Peril, 2 = Emergency Call
-    int status;
-    User caller;
+    private int priority;  // 0 = Normal Call, 1 = Imminent Peril, 2 = Emergency Call
+    private int status;  // 0 = ringing, 1 = accepted, 2 = rejected, 3 = active
+    private User caller;
+    private
 
-    Call() {
+    Call(User callerid) {
 
+        this.caller = callerid;
+
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     @Override
@@ -74,19 +82,6 @@ public class Call implements Callable {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-            } else if (mCallType == CallType.AMBIENT) {
-                // Ambient Call
-                try {
-                    Log.d(TAG,"Call type: " + mCallType);
-                    if(mService!=null)
-                        mService.makeCall(
-                                selGroup,
-                                ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.WithFloorCtrl.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.RemoteAmbientListening.getValue());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
             } else if (mCallType == CallType.CHATGROUP) {
                 // Chatgroup Call
                 try {
@@ -117,20 +112,6 @@ public class Call implements Callable {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-            } else if (mCallType == CallType.PRIVATE) {
-                // Private Call
-                try {
-                    Log.d(TAG,"Call type: Emergency " + mCallType);
-                    if(mService!=null)
-                        mService.makeCall(
-                                selUser, //DEFAULT_PRIVATE_CALL,
-                                ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.WithFloorCtrl.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.Private.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.ImminentPeril.getValue());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
             } else if (mCallType == CallType.BROADCAST) {
                 // Broadcast Call
                 try {
@@ -141,20 +122,6 @@ public class Call implements Callable {
                                 ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio.getValue() |
                                         ConstantsMCOP.CallEventExtras.CallTypeEnum.WithFloorCtrl.getValue() |
                                         ConstantsMCOP.CallEventExtras.CallTypeEnum.Broadcast.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.ImminentPeril.getValue());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            } else if (mCallType == CallType.AMBIENT) {
-                // Ambient Call
-                try {
-                    Log.d(TAG,"Call type: " + mCallType);
-                    if(mService!=null)
-                        mService.makeCall(
-                                selGroup,
-                                ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.WithFloorCtrl.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.RemoteAmbientListening.getValue() |
                                         ConstantsMCOP.CallEventExtras.CallTypeEnum.ImminentPeril.getValue());
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -218,20 +185,6 @@ public class Call implements Callable {
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-            } else if (mCallType == CallType.AMBIENT) {
-                // Ambient Call
-                try {
-                    Log.d(TAG,"Call type: " + mCallType);
-                    if(mService!=null)
-                        mService.makeCall(
-                                selGroup,
-                                ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.WithFloorCtrl.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.RemoteAmbientListening.getValue() |
-                                        ConstantsMCOP.CallEventExtras.CallTypeEnum.Emergency.getValue());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
             } else if (mCallType == CallType.CHATGROUP) {
                 // Chatgroup Call
                 try {
@@ -248,16 +201,20 @@ public class Call implements Callable {
                 }
             }
         }
-        // btn_hangup.setEnabled(true);
     }
 
     @Override
-    public void hangup() {
-
+    public void hangup(String sessionid) {
+        try {
+            if(mService!=null)
+                mService.hangUpCall(sessionid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(int updatedPriority) {
-        priority = updatedPriority;
+    public void update() {
+        //priority = updatedPriority;
     }
 }
