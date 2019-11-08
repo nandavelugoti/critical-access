@@ -32,6 +32,13 @@ public class HomePage extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        View bottomSheet = findViewById(R.id.design_bottom_sheet);
+        final BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.setHideable(true);
+        behavior.setPeekHeight(200);
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

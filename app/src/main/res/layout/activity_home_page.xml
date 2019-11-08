@@ -43,7 +43,7 @@
             android:id="@+id/bottomsheet_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Introducing Bottom Sheets"
+            android:text="Call in process"
             android:textColor="#FFFFFF" />
     </RelativeLayout>
 
