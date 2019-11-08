@@ -24,7 +24,6 @@ public class ContactFragment extends Fragment {
     private RecyclerView myRecyclerView;
     UserRecyclerViewAdapter recyclerViewAdapter;
     private List<User> listUsers;
-    SearchView searchView;
     EditText filter;
 
     @Override
