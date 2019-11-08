@@ -38,5 +38,13 @@
     <string name="Developed_by">Developed by</string>
     <string name="web">\nwww.mcopenplatform.org</string>
     <string name="copyright">\u00a9 2019 All rights reserved</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_home_page">Title</string>
+    <string name="tab_1">Groups</string>
+    <string name="tab_2">Contacts</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
