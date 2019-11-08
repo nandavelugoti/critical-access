@@ -16,15 +16,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="16dp">
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/name_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
             android:text="Group name"
-            android:id="@+id/name_group">
+            android:textStyle="bold">
 
         </TextView>
 

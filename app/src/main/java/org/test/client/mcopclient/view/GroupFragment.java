@@ -8,13 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.model.Group;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +20,6 @@ import java.util.List;
  */
 
 public class GroupFragment extends Fragment {
-    private static final String TAG = "Tab1Fragment";
-
-    private Button btnTEST;
 
     private RecyclerView myRecyclerView;
     private List<Group> listGroups;
@@ -53,9 +47,9 @@ public class GroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group,container,false);
 
         myRecyclerView = (RecyclerView) view.findViewById(R.id.group_recyclerview);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), listGroups);
+        GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(getContext(), listGroups);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView.setAdapter(recyclerViewAdapter);
+        myRecyclerView.setAdapter(groupRecyclerViewAdapter);
 
         return view;
     }

@@ -35,10 +35,26 @@ public class User {
     private Map<String,String> sessionIDs;
     private boolean isRegisted;
     private ArrayList<String> groups;
+    private int photo;
 
     public User(String mcpttID, String displayName) {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
+        sessionIDs=new HashMap<String,String>();
+    }
+
+    public int getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(int photo) {
+        this.photo = photo;
+    }
+
+    public User(String mcpttID, String displayName, int photo) {
+        this.mcpttID = mcpttID;
+        this.displayName = displayName;
+        this.photo = photo;
         sessionIDs=new HashMap<String,String>();
     }
 

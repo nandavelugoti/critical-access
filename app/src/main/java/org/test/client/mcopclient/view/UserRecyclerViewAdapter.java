@@ -11,16 +11,21 @@ import android.widget.TextView;
 
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.model.Group;
+import org.test.client.mcopclient.model.User;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerViewAdapter.MyViewHolder> {
 
     Context mContext;
-    List<Group> mData;
+    List<User> mData;
 
-    public RecyclerViewAdapter(Context mContext, List<Group> mData) {
+    public UserRecyclerViewAdapter(Context mContext, List<User> mData) {
         this.mContext = mContext;
+        this.mData = mData;
+    }
+
+    public void setData(List<User> mData){
         this.mData = mData;
     }
 
@@ -34,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.name.setText(mData.get(position).getName());
+        holder.name.setText(mData.get(position).getDisplayName());
         holder.img.setImageResource(mData.get(position).getPhoto());
     }
 
