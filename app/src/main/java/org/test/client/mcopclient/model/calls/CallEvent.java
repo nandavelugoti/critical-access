@@ -1,6 +1,6 @@
 package org.test.client.mcopclient.model.calls;
 
-import org.test.client.mcopclient.model.ConstantsMCOP.CallEventExtras.CallTypeEnum;
+import org.test.client.mcopclient.ConstantsMCOP.CallEventExtras.CallTypeEnum;
 
 public class CallEvent{
     public enum CallTypeValidEnum {

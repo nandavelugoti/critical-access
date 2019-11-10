@@ -1,17 +1,12 @@
 package org.test.client.mcopclient.controller;
 
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
-import org.test.client.mcopclient.R;
-import org.test.client.mcopclient.model.ConstantsMCOP;
+import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.model.calls.Call;
 
 import java.util.List;
 
-public class CallManager {
-    private final static String TAG = CallManager.class.getCanonicalName();
+public class MCOPCallManager {
+    private final static String TAG = MCOPCallManager.class.getCanonicalName();
     private static List<Call> currentCalls = null;
     private MCOPServiceManager serviceManager = null;
 

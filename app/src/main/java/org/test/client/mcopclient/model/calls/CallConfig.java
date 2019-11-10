@@ -1,10 +1,5 @@
 package org.test.client.mcopclient.model.calls;
 
-import org.test.client.mcopclient.model.ConstantsMCOP.CallEventExtras.CallTypeEnum;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class CallConfig {
     private CallType callType;
     private MediaType mediaType;

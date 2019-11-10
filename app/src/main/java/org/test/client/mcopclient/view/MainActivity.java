@@ -23,58 +23,31 @@ package org.test.client.mcopclient.view;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.provider.Settings;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
-import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.R;
-import org.test.client.mcopclient.controller.MCOPConfigurationManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
-import org.test.client.mcopclient.model.ConstantsMCOP;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getCanonicalName();
-
-    private Map<String, String> clients;
-    private DialogMenu mDialogMenu;
-    private String currentProfile;
     private static final int AUTHETICATION_RESULT=101;
     private static final int GET_PERMISSION = 102;
+    private static final String PARAMETER_PROFILE = "parameters";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            MCOPServiceManager.initialize();
+            ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
+            MCOPServiceManager.initialize(strings);
         }
     }
 

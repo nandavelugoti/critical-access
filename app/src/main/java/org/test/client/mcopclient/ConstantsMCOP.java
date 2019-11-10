@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package org.test.client.mcopclient.model;
+package org.test.client.mcopclient;
 
 
 import java.util.ArrayList;
@@ -31,7 +31,8 @@ public class ConstantsMCOP {
 
     public static final int NO_ERROR=0;
 
-
+    public static final int ERROR_CODE_DEFAULT=-1;
+    public static final boolean VALUE_BOOLEAN_DEFAULT=false;
 
     /**
      * Key Access to the values of the packet names of Iapi plugins

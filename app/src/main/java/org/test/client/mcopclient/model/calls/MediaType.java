@@ -1,6 +1,6 @@
 package org.test.client.mcopclient.model.calls;
 
-import org.test.client.mcopclient.model.ConstantsMCOP;
+import org.test.client.mcopclient.ConstantsMCOP;
 
 enum MediaType {
     Audio (ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio),

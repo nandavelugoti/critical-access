@@ -17,9 +17,7 @@ import java.util.Set;
 public class MCOPConfigurationManager {
     private final static String TAG = MCOPConfigurationManager.class.getCanonicalName();
 
-    private static final String PARAMETER_PROFILE = "parameters";
     private static final String PARAMETER_SAVE_PROFILE = "TAG.PARAMETER_SAVE_PROFILE";
-    private static final String PARAMETER_CONFIG = "configuration";
     private static final String PARAMETER_CONFIG_IDMSCMS = "TAG.PARAMETER_CONFIG_IDMSCMS";
     private static final String PARAMETER_CONFIG_AUTOREGISTER = "TAG.PARAMETER_CONFIG_AUTOREGISTER";
     private static boolean IdMSCMS = false;
@@ -45,8 +43,7 @@ public class MCOPConfigurationManager {
         }
     }
 
-    public static Map<String,String> getProfilesParameters(Intent intent){
-        List<String> parameters = intent.getStringArrayListExtra(PARAMETER_PROFILE);
+    public static Map<String,String> getProfilesParameters(List<String> parameters){
         Map<String,String> parametersMap=new HashMap<>();
         if(parameters!=null && !parameters.isEmpty()){
             Log.i(TAG,"External parameters");

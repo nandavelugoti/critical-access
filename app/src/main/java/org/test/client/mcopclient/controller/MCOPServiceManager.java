@@ -1,104 +1,104 @@
 package org.test.client.mcopclient.controller;
 
-import android.content.BroadcastReceiver;
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.RemoteException;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.mcopenplatform.muoapi.IMCOPCallback;
 import org.mcopenplatform.muoapi.IMCOPsdk;
 import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.CriticalAccess;
-import org.test.client.mcopclient.model.ConstantsMCOP;
+import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.model.User;
-import org.test.client.mcopclient.view.MainActivity;
+
+import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 public class MCOPServiceManager {
     private final static String TAG = MCOPServiceManager.class.getCanonicalName();
-
-    private static ServiceConnection mConnection;
-    private static IMCOPsdk mService;
-    private static IMCOPCallback mMCOPCallback;
-    private static boolean isConnect=false;
+    private static Intent serviceIntent;
+    private static MCOPServiceConnection mConnection;
     private static User user;
-    private static final int DEFAULT_REGISTER_DELAY = 3000;
+    private static String currentProfile;
+    private static Map<String, String> clients;
     private boolean registered = false;
 
-    public static void initialize() {
-        if(mConnection==null) {
-            mMCOPCallback = new MCOPCallbackManager();
-            mConnection = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName className, IBinder service) {
-                    Log.d(TAG, "Service binded! " + className.getPackageName() + "\n");
-                    Toast.makeText(CriticalAccess.getContext(), "Binded to MCOP SDK", Toast.LENGTH_SHORT).show();
-                    mService = IMCOPsdk.Stub.asInterface(service);
+    public static void initialize(List<String> profiles) {
+        if (mConnection == null) {
+            mConnection = new MCOPServiceConnection();
+        }
 
-                    try {
-                        Log.d(TAG, "execute registerCallback " + mMCOPCallback);
-                        mService.registerCallback(mMCOPCallback);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    isConnect = true;
+        Map<String, String> parameterClients = MCOPConfigurationManager.getProfilesParameters(profiles);
+        if(parameterClients!=null && !parameterClients.isEmpty())
+            clients = parameterClients;
 
-                    // Auto Registration
-                    if (MCOPConfigurationManager.isAutoRegister()) {
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                register();
-                            }
-                        }, DEFAULT_REGISTER_DELAY);
-                    }
+        MCOPConfigurationManager.loadConfiguration(CriticalAccess.getContext());
+
+        if (user==null);
+            user = new User();
+
+        TelephonyManager tm = (TelephonyManager) CriticalAccess.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        if (tm != null) {
+            if (ActivityCompat.checkSelfPermission(CriticalAccess.getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                String imei = tm.getDeviceId();
+                String client = clients.get(imei);
+                if(client!=null){
+                    currentProfile=client;
+                    Log.i(TAG,"currentProfile: "+ currentProfile);
                 }
-
-                @Override
-                public void onServiceDisconnected(ComponentName className) {
-                    mService = null;
-                    // This method is only invoked when the service quits from the other end or gets killed
-                    // Invoking exit() from the AIDL interface makes the Service kill itself, thus invoking this.
-                    Log.d(TAG, "Service disconnected.\n");
-                    isConnect = false;
-                }
-            };
+                connectService(currentProfile);
+            }
         }
     }
 
-    public static void connectService(){
+    public static void connectService(String client){
+        if(BuildConfig.DEBUG)Log.d(TAG,"connectService execute");
+        if(!mConnection.isConnected()){
+            serviceIntent = new Intent()
+                    .setComponent(new ComponentName(
+                            "org.mcopenplatform.muoapi",
+                            "org.mcopenplatform.muoapi.MCOPsdk"));
 
-    }
+            if(client!=null && !client.trim().isEmpty()){
+                Log.i(TAG,"Current profile: "+currentProfile);
+                serviceIntent.putExtra("PROFILE_SELECT", currentProfile!=null?currentProfile:client);
+            }
 
-    private static void register() {
-        if (MCOPConfigurationManager.isIdMSCMS()) {
-            //IdMS
-            try {
-                if(mService!=null)
-                    mService.loginMCOP();
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            serviceIntent.putExtra(ConstantsMCOP.MBMS_PLUGIN_PACKAGE_ID, "com.expway.embmsserver");
+            serviceIntent.putExtra(ConstantsMCOP.MBMS_PLUGIN_SERVICE_ID, "com.expway.embmsserver.MCOP");
+
+            try{
+                ComponentName componentName;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    componentName = CriticalAccess.getContext().startForegroundService(serviceIntent);
+                } else {
+                    componentName = CriticalAccess.getContext().startService(serviceIntent);
+                }
+                if(componentName==null){
+                    Log.e(TAG,"Starting Error: componentName is null");
+                }else if(serviceIntent==null){
+                    Log.e(TAG,"serviceIntent Error: "+componentName.getPackageName());
+                }else if(mConnection==null){
+                    Log.e(TAG,"mConnection Error: "+componentName.getPackageName());
+                }else{
+
+                }
+            }catch (Exception e){
+                if(BuildConfig.DEBUG)Log.w(TAG,"Error in start service: "+e.getMessage());
             }
-        } else {
-            // CMS
-            try {
-                if(mService!=null)
-                    mService.authorizeUser(null);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            if(mConnection!=null)
+                Log.i(TAG,"Bind Service: "+CriticalAccess.getContext().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE));
         }
     }
 
     public static IMCOPsdk getService() {
-        return mService;
+        return mConnection.getService();
     }
 }
