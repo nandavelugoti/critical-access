@@ -85,18 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            if(tm!=null) {
-                String imei = tm.getDeviceId();
-                String client=clients.get(imei);
-                if(client!=null){
-                    this.currentProfile=client;
-                    Log.i(TAG,"currentProfile: "+ currentProfile);
-                    MCOPServiceManager.connectService(currentProfile);
-                }else{
-                    MCOPServiceManager.connectService(null);
-                }
-            }
+            MCOPServiceManager.initialize();
         }
     }
 

@@ -1,47 +1,36 @@
 package org.test.client.mcopclient.model.calls;
 
-import org.test.client.mcopclient.model.ConstantsMCOP.FloorControlEventExtras.FloorControlEventTypeEnum;
-import org.test.client.mcopclient.model.ConstantsMCOP.CallEventExtras.CallTypeEnum;
+import android.os.RemoteException;
+
+import org.test.client.mcopclient.controller.MCOPServiceManager;
+
 public class Call implements Callable {
-    String id;
-    private int priority;
-    private CallTypeEnum callType;
-    private FloorControlEventTypeEnum state;
+    private String calleeId;
+    private String sessionId;
+    private CallConfig callConfig;
 
-    Call() {
-
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public FloorControlEventTypeEnum getState() {
-        return state;
-    }
-
-    public void setState(FloorControlEventTypeEnum state) {
-        this.state = state;
+    Call(String id, CallConfig callConfig) {
+        this.calleeId = id;
+        this.callConfig = callConfig;
     }
 
     @Override
-    public void call() {
-
+    public boolean call() throws RemoteException {
+        return MCOPServiceManager.getService().makeCall(calleeId, callConfig.getCallTypeEnumValue());
     }
 
     @Override
-    public void hangup() {
-
+    public boolean hangup() throws RemoteException {
+        return MCOPServiceManager.getService().hangUpCall(sessionId);
     }
 
     @Override
-    public void update() {
-
+    public boolean updateState(EmergencyType emergencyType) throws RemoteException {
+        return MCOPServiceManager.getService().updateEmergencyState(sessionId, emergencyType.getValue());
     }
 
-
+    @Override
+    public boolean floorControlOperation(int requestType, String userID) throws RemoteException {
+        return MCOPServiceManager.getService().floorControlOperation(sessionId, requestType, userID);
+    }
 }

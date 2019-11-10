@@ -27,30 +27,12 @@ public class MCOPServiceManager {
     private static ServiceConnection mConnection;
     private static IMCOPsdk mService;
     private static IMCOPCallback mMCOPCallback;
-    private boolean mERState = false;
-    private boolean isConnect=false;
-
+    private static boolean isConnect=false;
     private static User user;
     private static final int DEFAULT_REGISTER_DELAY = 3000;
     private boolean registered = false;
-    private enum State {
-        GRANTED,
-        IDLE,
-        TAKEN,
-        NONE
-    }
-    private State mState = State.NONE;
-    private enum CallType {
-        PRIVATE,
-        GROUP
-    }
-    private CallType mCallType = CallType.GROUP;
 
-    private static final String ACTION_BUTTON_PTT_DOWN_BITTIUM="com.elektrobit.pttbutton.PTTBUTTON_DOWN";
-    private static final String ACTION_BUTTON_PTT_UP_BITTIUM="com.elektrobit.pttbutton.PTTBUTTON_UP";
-    private static final String ACTION_BUTTON_PTT_LONG_PRESS_BITTIUM="com.elektrobit.pttbutton.PTTBUTTON_LONG_PRESS";
-
-    public void initialize() {
+    public static void initialize() {
         if(mConnection==null) {
             mMCOPCallback = new MCOPCallbackManager();
             mConnection = new ServiceConnection() {
@@ -89,54 +71,24 @@ public class MCOPServiceManager {
                     isConnect = false;
                 }
             };
-            final IntentFilter intentFilter2 = new IntentFilter();
-            intentFilter2.addAction(ACTION_BUTTON_PTT_DOWN_BITTIUM);
-            intentFilter2.addAction(ACTION_BUTTON_PTT_UP_BITTIUM);
-            intentFilter2.addAction(ACTION_BUTTON_PTT_LONG_PRESS_BITTIUM);
         }
     }
 
-    // PTT button on Bittium Devices
-    private BroadcastReceiver mButtonPTTBroadCastRecvMCPTT = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-        }
-    };
+    public static void connectService(){
 
-    private void makeCall(){
-        if (mERState == false) {
-            // Non-Emergency Calls
-            if (mCallType == CallType.GROUP) {
-                // Group Call
-
-            } else if (mCallType == CallType.PRIVATE) {
-                // Private Call
-
-            }
-        } else {
-            // Emergency Calls
-            if (mCallType == CallType.GROUP) {
-                // Emergency Group Call
-
-            } else if (mCallType == CallType.PRIVATE) {
-                // Private Call
-
-            }
-        }
     }
 
-    public static void connectService(String client){
-    }
-
-    private void register() {
+    private static void register() {
         if (MCOPConfigurationManager.isIdMSCMS()) {
+            //IdMS
             try {
                 if(mService!=null)
                     mService.loginMCOP();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-        } else { // CMS
+        } else {
+            // CMS
             try {
                 if(mService!=null)
                     mService.authorizeUser(null);
@@ -144,5 +96,9 @@ public class MCOPServiceManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static IMCOPsdk getService() {
+        return mService;
     }
 }

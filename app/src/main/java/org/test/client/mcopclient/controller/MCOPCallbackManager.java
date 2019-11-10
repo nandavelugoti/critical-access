@@ -36,7 +36,6 @@ public class MCOPCallbackManager extends IMCOPCallback.Stub {
             int callType=0;
             if(action!=null && action.getAction()!=null && !action.getAction().trim().isEmpty())
                 try {
-
                     switch (ConstantsMCOP.ActionsCallBack.fromString(action.getAction())){
                         case none:
                             if(BuildConfig.DEBUG) Log.d(TAG,"none");
