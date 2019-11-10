@@ -40,11 +40,11 @@ import java.util.ArrayList;
 public class DialogAlert extends DialogFragment {
     private final static String TAG = Utils.getTAG(DialogAlert.class.getCanonicalName());
 
-    private static final String PARAMETER_TITLE=TAG+".PARAMETER_TITLE";
-    private static final String PARAMETER_DATA=TAG+".PARAMETER_DATA";
-    private static final String PARAMETER_BUTTON_OK=TAG+".PARAMETER_BUTTON_OK";
-    private static final String PARAMETER_BUTTON_CANCEL=TAG+".PARAMETER_BUTTON_CANCEL";
-    private static final String PARAMETER_IS_BUTTON_CANCEL=TAG+".PARAMETER_IS_BUTTON_CANCEL";
+    private static final String PARAMETER_TITLE = TAG + ".PARAMETER_TITLE";
+    private static final String PARAMETER_DATA = TAG + ".PARAMETER_DATA";
+    private static final String PARAMETER_BUTTON_OK = TAG + ".PARAMETER_BUTTON_OK";
+    private static final String PARAMETER_BUTTON_CANCEL = TAG + ".PARAMETER_BUTTON_CANCEL";
+    private static final String PARAMETER_IS_BUTTON_CANCEL = TAG + ".PARAMETER_IS_BUTTON_CANCEL";
 
 
     private String data;
@@ -61,23 +61,7 @@ public class DialogAlert extends DialogFragment {
 
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.data = getArguments().getString(PARAMETER_DATA);
-        this.title=getArguments().getString(PARAMETER_TITLE);
-        this.title=getArguments().getString(PARAMETER_TITLE);
-        this.buttonOk=getArguments().getString(PARAMETER_BUTTON_OK);
-        this.buttonCancel=getArguments().getString(PARAMETER_BUTTON_CANCEL);
-        this.isButtonCancel=getArguments().getBoolean(PARAMETER_IS_BUTTON_CANCEL);
-        if(buttonOk==null)
-            buttonOk=getString(R.string.OK);
-        if(buttonCancel==null)
-            buttonCancel=getString(R.string.Cancel);
-        groupsSelect=new ArrayList<>();
-    }
-
-    public static DialogAlert newInstance(String data, String title,boolean isButtonCancel) {
+    public static DialogAlert newInstance(String data, String title, boolean isButtonCancel) {
         DialogAlert f = new DialogAlert();
 
         Bundle args = new Bundle();
@@ -89,17 +73,37 @@ public class DialogAlert extends DialogFragment {
         return f;
     }
 
-    public static DialogAlert newInstance(String title, String buttonOk, String buttonCancel,String data,boolean isButtonCancel) {
+    public static DialogAlert newInstance(String title, String buttonOk, String buttonCancel, String data, boolean isButtonCancel) {
         DialogAlert f = new DialogAlert();
 
         Bundle args = new Bundle();
-        args.putString(PARAMETER_DATA,data);
+        args.putString(PARAMETER_DATA, data);
         args.putString(PARAMETER_TITLE, title);
         args.putString(PARAMETER_BUTTON_OK, buttonOk);
         args.putString(PARAMETER_BUTTON_CANCEL, buttonCancel);
         args.putBoolean(PARAMETER_IS_BUTTON_CANCEL, isButtonCancel);
         f.setArguments(args);
         return f;
+    }
+
+    public static DialogAlert newInstance() {
+        return newInstance(null, null, false);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.data = getArguments().getString(PARAMETER_DATA);
+        this.title = getArguments().getString(PARAMETER_TITLE);
+        this.title = getArguments().getString(PARAMETER_TITLE);
+        this.buttonOk = getArguments().getString(PARAMETER_BUTTON_OK);
+        this.buttonCancel = getArguments().getString(PARAMETER_BUTTON_CANCEL);
+        this.isButtonCancel = getArguments().getBoolean(PARAMETER_IS_BUTTON_CANCEL);
+        if (buttonOk == null)
+            buttonOk = getString(R.string.OK);
+        if (buttonCancel == null)
+            buttonCancel = getString(R.string.Cancel);
+        groupsSelect = new ArrayList<>();
     }
 
     /**
@@ -109,20 +113,17 @@ public class DialogAlert extends DialogFragment {
      * <em>not</em> add the transaction to the back stack.  When the fragment
      * is dismissed, a new transaction will be executed to remove it from
      * the activity.
+     *
      * @param manager The FragmentManager whom fragment will be added to.
-     * @param tag The tag for this fragment
+     * @param tag     The tag for this fragment
      */
     public void show(FragmentManager manager, String tag) {
-        try{
-            super.show(manager,tag);
-        }catch (Exception e){
-            Log.e(TAG,"Error in dialog: "+e.getMessage());
+        try {
+            super.show(manager, tag);
+        } catch (Exception e) {
+            Log.e(TAG, "Error in dialog: " + e.getMessage());
         }
 
-    }
-
-    public static DialogAlert newInstance() {
-        return newInstance(null,null,false);
     }
 
     @NonNull
@@ -133,6 +134,7 @@ public class DialogAlert extends DialogFragment {
 
     /**
      * Create new Dialog Fragment
+     *
      * @return new Dialog Fragment
      */
     public AlertDialog createDialogSelfAffiliation() {
@@ -141,16 +143,16 @@ public class DialogAlert extends DialogFragment {
                 .setPositiveButton(buttonOk, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        if(onClickOkButtonListener!=null)
+                        if (onClickOkButtonListener != null)
                             onClickOkButtonListener.onClickOkButton();
                     }
                 });
 
-        if(isButtonCancel){
+        if (isButtonCancel) {
             builder.setNegativeButton(buttonCancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    if (BuildConfig.DEBUG)Log.d(TAG,"Cancel dialog.");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Cancel dialog.");
 
                 }
             });
@@ -158,13 +160,11 @@ public class DialogAlert extends DialogFragment {
         return builder.create();
     }
 
-
-
-    public interface OnClickOkButtonListener{
-        void onClickOkButton();
+    public void setOnClickOkButtonListener(OnClickOkButtonListener onClickOkButtonListener) {
+        this.onClickOkButtonListener = onClickOkButtonListener;
     }
 
-    public void setOnClickOkButtonListener(OnClickOkButtonListener onClickOkButtonListener){
-        this.onClickOkButtonListener=onClickOkButtonListener;
+    public interface OnClickOkButtonListener {
+        void onClickOkButton();
     }
 }

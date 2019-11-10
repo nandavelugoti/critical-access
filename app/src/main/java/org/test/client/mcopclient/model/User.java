@@ -32,14 +32,14 @@ import java.util.Map;
 public class User {
     private String mcpttID;
     private String displayName;
-    private Map<String,String> sessionIDs;
+    private Map<String, String> sessionIDs;
     private boolean isRegisted;
     private ArrayList<String> groups;
 
     public User(String mcpttID, String displayName) {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
-        sessionIDs=new HashMap<String,String>();
+        sessionIDs = new HashMap<String, String>();
     }
 
 
@@ -47,12 +47,12 @@ public class User {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
         this.isRegisted = isRegisted;
-        sessionIDs=new HashMap<String,String>();
+        sessionIDs = new HashMap<String, String>();
     }
 
 
     public User() {
-        sessionIDs=new HashMap<String,String>();
+        sessionIDs = new HashMap<String, String>();
     }
 
 
@@ -81,9 +81,9 @@ public class User {
     }
 
     public List<String> getSessionIDs() {
-        if(sessionIDs==null || sessionIDs.keySet()==null)return null;
-        Iterator<String> interator=sessionIDs.keySet().iterator();
-        ArrayList<String> ids=new ArrayList<>();
+        if (sessionIDs == null || sessionIDs.keySet() == null) return null;
+        Iterator<String> interator = sessionIDs.keySet().iterator();
+        ArrayList<String> ids = new ArrayList<>();
         while (interator.hasNext())
             ids.add(interator.next());
         return ids;
@@ -94,7 +94,7 @@ public class User {
     }
 
     public void addSessionID(String sessionIDs) {
-        this.sessionIDs.put(sessionIDs,sessionIDs);
+        this.sessionIDs.put(sessionIDs, sessionIDs);
     }
 
     public void addGroup(String group) {

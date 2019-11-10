@@ -18,7 +18,7 @@ public class MCOPServiceConnection implements ServiceConnection {
     private static final int DEFAULT_REGISTER_DELAY = 3000;
 
     private IMCOPsdk mService;
-    private boolean isConnected=false;
+    private boolean isConnected = false;
 
     @Override
     public void onServiceConnected(ComponentName className, IBinder service) {
@@ -60,7 +60,7 @@ public class MCOPServiceConnection implements ServiceConnection {
         if (MCOPConfigurationManager.isIdMSCMS()) {
             //IdMS
             try {
-                if(mService!=null)
+                if (mService != null)
                     mService.loginMCOP();
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -68,7 +68,7 @@ public class MCOPServiceConnection implements ServiceConnection {
         } else {
             // CMS
             try {
-                if(mService!=null)
+                if (mService != null)
                     mService.authorizeUser(null);
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -80,5 +80,7 @@ public class MCOPServiceConnection implements ServiceConnection {
         return mService;
     }
 
-    boolean isConnected() { return isConnected; }
+    boolean isConnected() {
+        return isConnected;
+    }
 }

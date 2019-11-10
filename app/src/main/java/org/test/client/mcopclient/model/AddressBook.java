@@ -15,8 +15,8 @@ public class AddressBook {
 
     public static User getUser(final String mcpttID) {
         User userData = null;
-        for (User user: users) {
-            if(user.getMcpttID().equals(mcpttID))
+        for (User user : users) {
+            if (user.getMcpttID().equals(mcpttID))
                 userData = user;
         }
         return userData;

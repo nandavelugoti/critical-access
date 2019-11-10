@@ -13,15 +13,15 @@ public class UnLoginEvent implements EventListener {
 
     @Override
     public void handleEvent(Intent action) {
-        if(action.getIntExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_CODE,ERROR_CODE_DEFAULT)!=ERROR_CODE_DEFAULT){
+        if (action.getIntExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT) != ERROR_CODE_DEFAULT) {
             // Error in unLoginEvent
-            String stringError=action.getStringExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_STRING);
-        }else  {
+            String stringError = action.getStringExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_STRING);
+        } else {
             // No error
-            boolean success=false;
-            if((success=action.getBooleanExtra(ConstantsMCOP.UnLoginEventExtras.SUCCESS,VALUE_BOOLEAN_DEFAULT))==true){
-            }else{
-                Log.e(TAG,"Error: Unregistration process");
+            boolean success = false;
+            if ((success = action.getBooleanExtra(ConstantsMCOP.UnLoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) == true) {
+            } else {
+                Log.e(TAG, "Error: Unregistration process");
             }
         }
     }

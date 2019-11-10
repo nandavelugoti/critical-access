@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:state_enabled="false" android:color="@color/dark">
-    <shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval">
-        <stroke android:color="@color/dark"
-            android:width="2dp"></stroke>
-        <gradient
-            android:angle="45"
-            android:endColor="@color/colorPrimaryLight"
-            android:gradientRadius="10"
-            android:startColor="@color/colorPrimaryDark"
-            android:type="linear" />
-        <size android:width="80dp"
-            android:height="80dp"></size>
-    </shape>
-</item>
-<item android:state_enabled="true" android:color="@color/white">
-    <shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval">
-        <stroke android:color="@color/white"
-            android:width="2dp"></stroke>
-        <gradient
-            android:angle="45"
-            android:endColor="@color/colorPrimaryLight"
-            android:gradientRadius="10"
-            android:startColor="@color/colorPrimaryDark"
-            android:type="linear" />
-        <size android:width="80dp"
-            android:height="80dp"></size>
-    </shape>
-</item>
+    <item android:color="@color/dark" android:state_enabled="false">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+            <stroke android:width="2dp" android:color="@color/dark"></stroke>
+            <gradient android:angle="45" android:endColor="@color/colorPrimaryLight" android:gradientRadius="10" android:startColor="@color/colorPrimaryDark" android:type="linear" />
+            <size android:width="80dp" android:height="80dp"></size>
+        </shape>
+    </item>
+    <item android:color="@color/white" android:state_enabled="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+            <stroke android:width="2dp" android:color="@color/white"></stroke>
+            <gradient android:angle="45" android:endColor="@color/colorPrimaryLight" android:gradientRadius="10" android:startColor="@color/colorPrimaryDark" android:type="linear" />
+            <size android:width="80dp" android:height="80dp"></size>
+        </shape>
+    </item>
 </selector>

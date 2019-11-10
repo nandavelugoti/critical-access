@@ -36,7 +36,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.Utils;
 
@@ -45,22 +44,19 @@ import java.net.URISyntaxException;
 
 public class ScreenAuthenticationWebView extends AppCompatActivity {
 
+    public final static int RETURN_ON_AUTHENTICATION_LISTENER_OK = 6547;
+    public final static int RETURN_ON_AUTHENTICATION_LISTENER_FAILURE = 6548;
     private final static String TAG = Utils.getTAG(ScreenAuthenticationWebView.class.getCanonicalName());
+    public final static String RETURN_ON_AUTHENTICATION_CAMPS = "RETURN__ON_AUTHENTICATION_CAMPS." + TAG;
+    public final static String RETURN_ON_AUTHENTICATION_ERROR = "RETURN__ON_AUTHENTICATION_ERROR." + TAG;
+    public final static String RETURN_ON_AUTHENTICATION_RESPONSE = "RETURN__ON_AUTHENTICATION_RESPONSE." + TAG;
+    public final static String DATA_URI_INTENT = "DATA_URI_INTENT." + TAG;
+    public final static String DATA_REDIRECTION_URI = "DATA_REDIRECTION_URI." + TAG;
+    public final static String DATA_USER = "DATA_USER." + TAG;
+    public final static String DATA_PASS = "DATA_PASS." + TAG;
+    private final static String QUERY_PATH = "code";
+    private final static int TIME_DELAY_MSEG = 3000;
     private Context mContext;
-    public final static int RETURN_ON_AUTHENTICATION_LISTENER_OK= 6547;
-    public final static int RETURN_ON_AUTHENTICATION_LISTENER_FAILURE= 6548;
-    public final static String RETURN_ON_AUTHENTICATION_CAMPS= "RETURN__ON_AUTHENTICATION_CAMPS."+TAG;
-    public final static String RETURN_ON_AUTHENTICATION_ERROR= "RETURN__ON_AUTHENTICATION_ERROR."+TAG;
-    public final static String RETURN_ON_AUTHENTICATION_RESPONSE= "RETURN__ON_AUTHENTICATION_RESPONSE."+TAG;
-
-    public final static String DATA_URI_INTENT= "DATA_URI_INTENT."+TAG;
-    public final static String DATA_REDIRECTION_URI= "DATA_REDIRECTION_URI."+TAG;
-    public final static String DATA_USER= "DATA_USER."+TAG;
-    public final static String DATA_PASS= "DATA_PASS."+TAG;
-    private final static String QUERY_PATH="code";
-
-    private final static int TIME_DELAY_MSEG=3000;
-
     private WebView screen_authentication_WebView_info;
     private String userAuthentication;
     private String passAuthentication;
@@ -75,14 +71,14 @@ public class ScreenAuthenticationWebView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen_authentication_web);
 
-        mContext=this;
-        Log.d(TAG,"Init proccess for token");
+        mContext = this;
+        Log.d(TAG, "Init proccess for token");
         //Init Delete all Cache for webView
         CookieSyncManager.createInstance(this);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
         //End Delete all Cache for webView
-        screen_authentication_WebView_info=(WebView)findViewById(R.id.screen_authentication_WebView_info);
+        screen_authentication_WebView_info = (WebView) findViewById(R.id.screen_authentication_WebView_info);
         // Force links and redirects to open in the WebView instead of in a browser
         screen_authentication_WebView_info.setWebViewClient(new WebViewClient());
         // Enable Javascript
@@ -90,41 +86,41 @@ public class ScreenAuthenticationWebView extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setAppCacheEnabled(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         if (intent != null) {
-            uriString=intent.getStringExtra(DATA_URI_INTENT);
-            String redirectionDataString=intent.getStringExtra(DATA_REDIRECTION_URI);
-            if(redirectionDataString==null || redirectionDataString.trim().isEmpty()){
-                Log.e(TAG,"Data for redirectionURI isn´t valid");
+            uriString = intent.getStringExtra(DATA_URI_INTENT);
+            String redirectionDataString = intent.getStringExtra(DATA_REDIRECTION_URI);
+            if (redirectionDataString == null || redirectionDataString.trim().isEmpty()) {
+                Log.e(TAG, "Data for redirectionURI isn´t valid");
                 sendError("Data for redirectionURI isn´t valid");
-            }else{
+            } else {
                 try {
-                    redirectionDataUri=new URI(redirectionDataString);
+                    redirectionDataUri = new URI(redirectionDataString);
                 } catch (URISyntaxException e) {
-                    Log.e(TAG,"Error parse redirection URI. "+e.getMessage() );
-                    sendError("Error parse redirection URI. "+e.getMessage());
+                    Log.e(TAG, "Error parse redirection URI. " + e.getMessage());
+                    sendError("Error parse redirection URI. " + e.getMessage());
                 }
             }
-            userAuthentication=intent.getStringExtra(DATA_USER);
-            passAuthentication=intent.getStringExtra(DATA_PASS);
-            if(uriString!=null){
+            userAuthentication = intent.getStringExtra(DATA_USER);
+            passAuthentication = intent.getStringExtra(DATA_PASS);
+            if (uriString != null) {
                 screen_authentication_WebView_info.loadUrl(uriString);
             }
 
         }
-        screen_authentication_WebView_info.setWebViewClient(new WebViewClient(){
+        screen_authentication_WebView_info.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(final WebView view, int errorCode, String description,
                                         final String failingUrl) {
 
-                Uri uri=Uri.parse(screen_authentication_WebView_info.getUrl());
-                if(((uri.getScheme().compareToIgnoreCase(redirectionDataUri.getScheme())!=0 ||
-                        uri.getHost().compareToIgnoreCase(redirectionDataUri.getHost())!=0 ||
-                        uri.getPort()!=redirectionDataUri.getPort() )&&
-                        description.trim().compareTo("net::ERR_CONNECTION_REFUSED") ==0
-                )){
-                    Log.e(TAG,"Error in web code: "+errorCode+" des: "+description);
-                    finishError(getString(R.string.Error_in_authetication)+" code: "+errorCode+" des: "+description);
+                Uri uri = Uri.parse(screen_authentication_WebView_info.getUrl());
+                if (((uri.getScheme().compareToIgnoreCase(redirectionDataUri.getScheme()) != 0 ||
+                        uri.getHost().compareToIgnoreCase(redirectionDataUri.getHost()) != 0 ||
+                        uri.getPort() != redirectionDataUri.getPort()) &&
+                        description.trim().compareTo("net::ERR_CONNECTION_REFUSED") == 0
+                )) {
+                    Log.e(TAG, "Error in web code: " + errorCode + " des: " + description);
+                    finishError(getString(R.string.Error_in_authetication) + " code: " + errorCode + " des: " + description);
                 }
 
                 super.onReceivedError(view, errorCode, description, failingUrl);
@@ -132,9 +128,8 @@ public class ScreenAuthenticationWebView extends AppCompatActivity {
             }
 
             @Override
-            public void onPageFinished(WebView view, String url)
-            {
-                if(userAuthentication!=null && passAuthentication!=null){
+            public void onPageFinished(WebView view, String url) {
+                if (userAuthentication != null && passAuthentication != null) {
                     screen_authentication_WebView_info.loadUrl("javascript:(function() { document.getElementById('j_username').value = '" + userAuthentication + "'; ;})()");
                     screen_authentication_WebView_info.loadUrl("javascript:(function() { document.getElementById('j_password').value = '" + passAuthentication + "'; ;})()");
                 }
@@ -143,49 +138,48 @@ public class ScreenAuthenticationWebView extends AppCompatActivity {
         });
     }
 
-    private void checkUrl(){
+    private void checkUrl() {
         handler = new Handler();
-        mRunnableCheckUrl=new Runnable() {
+        mRunnableCheckUrl = new Runnable() {
             @Override
             public void run() {
                 try {
-                    Uri uri=Uri.parse(screen_authentication_WebView_info.getUrl());
-                    String scheme=uri.getScheme();
-                    String host=uri.getHost();
-                    String path=uri.getPath();
-                    if(scheme.compareToIgnoreCase(redirectionDataUri.getScheme())==0 &&
-                            host.compareToIgnoreCase(redirectionDataUri.getHost())==0 &&
-                            uri.getPort()==redirectionDataUri.getPort() &&
+                    Uri uri = Uri.parse(screen_authentication_WebView_info.getUrl());
+                    String scheme = uri.getScheme();
+                    String host = uri.getHost();
+                    String path = uri.getPath();
+                    if (scheme.compareToIgnoreCase(redirectionDataUri.getScheme()) == 0 &&
+                            host.compareToIgnoreCase(redirectionDataUri.getHost()) == 0 &&
+                            uri.getPort() == redirectionDataUri.getPort() &&
                             path.contains(redirectionDataUri.getPath())
-                            ){
+                    ) {
                         Intent intent = new Intent();
                         intent.putExtra(RETURN_ON_AUTHENTICATION_RESPONSE, uri.toString());
-                        setResult(RETURN_ON_AUTHENTICATION_LISTENER_OK,intent);
+                        setResult(RETURN_ON_AUTHENTICATION_LISTENER_OK, intent);
                         finish();
-                    }
-                    else{
-                        if(userAuthentication!=null &&
+                    } else {
+                        if (userAuthentication != null &&
                                 !userAuthentication.isEmpty() &&
-                                passAuthentication!=null &&
+                                passAuthentication != null &&
                                 !passAuthentication.isEmpty()) {
                             //Configure user and pass And click in submit
                             screen_authentication_WebView_info.loadUrl("javascript:(function() { document.getElementsByName('submit')[0].click(); })()");
                             //Click in Authorize
                             screen_authentication_WebView_info.loadUrl("javascript:(function() { document.getElementsByName('authorize')[0].click(); })()");
 
-                        }else{
+                        } else {
                             //In this situation the
                             checkUrl();
                         }
                     }
                 } catch (Exception e) {
-                    Log.e(TAG,"Error checking Url authentication: "+e.getMessage());
+                    Log.e(TAG, "Error checking Url authentication: " + e.getMessage());
                     e.printStackTrace();
                 }
 
             }
         };
-        handler.postDelayed(mRunnableCheckUrl,TIME_DELAY_MSEG);
+        handler.postDelayed(mRunnableCheckUrl, TIME_DELAY_MSEG);
     }
 
     @Override
@@ -200,22 +194,22 @@ public class ScreenAuthenticationWebView extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
-        if(handler!=null){
+    public void finish() {
+        if (handler != null) {
             handler.removeCallbacks(mRunnableCheckUrl);
         }
         super.finish();
     }
 
-    public void finishError(String error){
+    public void finishError(String error) {
         sendError(error);
         finish();
     }
 
-    private void sendError(String error){
+    private void sendError(String error) {
         Intent intent = new Intent();
-        intent.putExtra(RETURN_ON_AUTHENTICATION_ERROR,error);
-        setResult(RETURN_ON_AUTHENTICATION_LISTENER_FAILURE,intent);
+        intent.putExtra(RETURN_ON_AUTHENTICATION_ERROR, error);
+        setResult(RETURN_ON_AUTHENTICATION_LISTENER_FAILURE, intent);
     }
 
 }

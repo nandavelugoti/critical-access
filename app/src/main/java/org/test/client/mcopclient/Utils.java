@@ -32,11 +32,10 @@ import static android.content.ContentValues.TAG;
 public class Utils {
 
 
-
-    public static String getTAG(String tag){
-        if(BuildConfig.LOG_SHOW){
+    public static String getTAG(String tag) {
+        if (BuildConfig.LOG_SHOW) {
             return tag;
-        }else{
+        } else {
             return BuildConfig.APPLICATION_ID;
         }
 
@@ -46,13 +45,12 @@ public class Utils {
         //if (!hasCellular) return;
         if (!((TelephonyManager)
                 context.getSystemService(Context.TELEPHONY_SERVICE)).hasCarrierPrivileges()) {
-           Log.e(TAG,"No hasCarrierPrivileges");
-        }else{
-            Log.e(TAG,"HasCarrierPrivileges");
+            Log.e(TAG, "No hasCarrierPrivileges");
+        } else {
+            Log.e(TAG, "HasCarrierPrivileges");
         }
 
     }
-
 
 
 }

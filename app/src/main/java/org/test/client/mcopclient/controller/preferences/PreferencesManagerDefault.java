@@ -31,12 +31,12 @@ public class PreferencesManagerDefault extends PreferencesManager {
     private static String TAG = PreferencesManagerDefault.class.getCanonicalName();
 
 
-    protected SharedPreferences createSharedPreferences(Context context){
+    protected SharedPreferences createSharedPreferences(Context context) {
         return createSharedPreferences(context, null);
     }
 
-    protected SharedPreferences createSharedPreferences(Context context,String preference_ID){
-        if(context==null){
+    protected SharedPreferences createSharedPreferences(Context context, String preference_ID) {
+        if (context == null) {
             return null;
         }
         sharedPref = PreferenceManager

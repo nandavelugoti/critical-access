@@ -14,48 +14,48 @@ public class FloorControlEvent implements EventListener {
     @Override
     public void handleEvent(Intent action) {
         String sessionID = null;
-        if((action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.ERROR_CODE,ERROR_CODE_DEFAULT))!=ERROR_CODE_DEFAULT){
+        if ((action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT)) != ERROR_CODE_DEFAULT) {
             // Error in unLoginEvent
-            sessionID=action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.SESSION_ID);
-            String stringError=action.getStringExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_STRING);
-        }else  {
+            sessionID = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.SESSION_ID);
+            String stringError = action.getStringExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_STRING);
+        } else {
             // No error
-            boolean success=false;
-            String eventFloorControl=action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.FLOOR_CONTROL_EVENT);
-            String causeString=null;
-            int causeInt=-1;
-            try{
-                sessionID=action.getStringExtra(ConstantsMCOP.CallEventExtras.SESSION_ID);
+            boolean success = false;
+            String eventFloorControl = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.FLOOR_CONTROL_EVENT);
+            String causeString = null;
+            int causeInt = -1;
+            try {
+                sessionID = action.getStringExtra(ConstantsMCOP.CallEventExtras.SESSION_ID);
                 switch (ConstantsMCOP.FloorControlEventExtras.FloorControlEventTypeEnum.fromString(eventFloorControl)) {
                     case none:
                         break;
                     case granted:
-                        Log.d(TAG,"TOKEN GRANTED");
-                        int durationGranted=action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.DURATION_TOKEN,ERROR_CODE_DEFAULT);
+                        Log.d(TAG, "TOKEN GRANTED");
+                        int durationGranted = action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.DURATION_TOKEN, ERROR_CODE_DEFAULT);
                         break;
                     case idle:
-                        Log.d(TAG,"TOKEN IDLE");
+                        Log.d(TAG, "TOKEN IDLE");
                         break;
                     case taken:
-                        Log.d(TAG,"TOKEN TAKEN");
-                        String userIDTaken=action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.USER_ID);
-                        String displayNameTaken=action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.DISPLAY_NAME);
-                        boolean allow_request=action.getBooleanExtra(ConstantsMCOP.FloorControlEventExtras.ALLOW_REQUEST,VALUE_BOOLEAN_DEFAULT);
+                        Log.d(TAG, "TOKEN TAKEN");
+                        String userIDTaken = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.USER_ID);
+                        String displayNameTaken = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.DISPLAY_NAME);
+                        boolean allow_request = action.getBooleanExtra(ConstantsMCOP.FloorControlEventExtras.ALLOW_REQUEST, VALUE_BOOLEAN_DEFAULT);
                         break;
                     case denied:
-                        Log.d(TAG,"TOKEN DENIED");
-                        causeString=action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_STRING);
-                        causeInt=action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_CODE,ERROR_CODE_DEFAULT);
+                        Log.d(TAG, "TOKEN DENIED");
+                        causeString = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_STRING);
+                        causeInt = action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_CODE, ERROR_CODE_DEFAULT);
                         break;
                     case revoked:
-                        Log.d(TAG,"TOKEN REVOKED");
-                        causeString=action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_STRING);
-                        causeInt=action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_CODE,ERROR_CODE_DEFAULT);
+                        Log.d(TAG, "TOKEN REVOKED");
+                        causeString = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_STRING);
+                        causeInt = action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_CODE, ERROR_CODE_DEFAULT);
                         break;
                     default:
                         break;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }

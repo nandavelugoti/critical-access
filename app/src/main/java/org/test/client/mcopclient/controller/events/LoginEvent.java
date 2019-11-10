@@ -14,21 +14,22 @@ public class LoginEvent implements EventListener {
 
     @Override
     public void handleEvent(Intent action) {
-        if(action.getIntExtra(ConstantsMCOP.LoginEventExtras.ERROR_CODE,ERROR_CODE_DEFAULT)!=ERROR_CODE_DEFAULT){
+        if (action.getIntExtra(ConstantsMCOP.LoginEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT) != ERROR_CODE_DEFAULT) {
             // Error in LoginEvent
-            String stringError=action.getStringExtra(ConstantsMCOP.LoginEventExtras.ERROR_STRING);
-        }else  {
+            String stringError = action.getStringExtra(ConstantsMCOP.LoginEventExtras.ERROR_STRING);
+        } else {
             // No error
-            boolean success=false;
-            String mcptt_id=null;
-            String displayName=null;
-            if((success = action.getBooleanExtra(ConstantsMCOP.LoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) &&
-                    (mcptt_id=action.getStringExtra(ConstantsMCOP.LoginEventExtras.MCPTT_ID))!=null
-            ){
-                if(BuildConfig.DEBUG) Log.d(TAG,"Login success: "+success+" mcptt_id: "+mcptt_id);
-                displayName=action.getStringExtra(ConstantsMCOP.LoginEventExtras.DISPLAY_NAME);
-            }else{
-                Log.e(TAG,"Error: Registration process");
+            boolean success = false;
+            String mcptt_id = null;
+            String displayName = null;
+            if ((success = action.getBooleanExtra(ConstantsMCOP.LoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) &&
+                    (mcptt_id = action.getStringExtra(ConstantsMCOP.LoginEventExtras.MCPTT_ID)) != null
+            ) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "Login success: " + success + " mcptt_id: " + mcptt_id);
+                displayName = action.getStringExtra(ConstantsMCOP.LoginEventExtras.DISPLAY_NAME);
+            } else {
+                Log.e(TAG, "Error: Registration process");
             }
         }
     }

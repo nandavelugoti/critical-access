@@ -34,14 +34,11 @@ import android.widget.Spinner;
 
 public class DialogMenu extends DialogFragment {
     private final static String TAG = DialogMenu.class.getCanonicalName();
+    private static final String PARAMETER_MENU_ITEM = TAG + ".PARAMETER_MENU_ITEM";
+    private static final String PARAMETER_MENU_TITLE = TAG + ".PARAMETER_MENU_TITLE";
     private EditText dialog_new_account_EditText_name;
     private EditText dialog_new_account_EditText_UriSip;
     private Spinner dialog_new_account_Spinner_type;
-
-    private static final String PARAMETER_MENU_ITEM=TAG+".PARAMETER_MENU_ITEM";
-    private static final String PARAMETER_MENU_TITLE=TAG+".PARAMETER_MENU_TITLE";
-
-
     private String[] items;
     private String title;
 
@@ -78,32 +75,32 @@ public class DialogMenu extends DialogFragment {
 
     /**
      * create new Dialog Fragment
+     *
      * @return new Dialog Fragment
      */
     public AlertDialog createDialogNewAccount() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        String titleComplete="options";
-        if(title!=null){
-            titleComplete+="("+title+")";
+        String titleComplete = "options";
+        if (title != null) {
+            titleComplete += "(" + title + ")";
         }
 
         builder.setTitle(titleComplete)
                 .setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        if(onClickItemListener!=null)onClickItemListener.onClickItem(item);
+                        if (onClickItemListener != null) onClickItemListener.onClickItem(item);
                     }
                 });
 
         return builder.create();
     }
 
-
-    public interface OnClickListener{
-        void onClickItem(int item);
+    public void setOnClickItemListener(OnClickListener onClickItemListener) {
+        this.onClickItemListener = onClickItemListener;
     }
 
-    public void setOnClickItemListener(OnClickListener onClickItemListener){
-        this.onClickItemListener=onClickItemListener;
+    public interface OnClickListener {
+        void onClickItem(int item);
     }
 }
