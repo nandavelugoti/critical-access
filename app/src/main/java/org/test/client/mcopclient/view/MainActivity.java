@@ -41,11 +41,10 @@ import org.test.client.mcopclient.controller.MCOPServiceManager;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getCanonicalName();
-    private static final int AUTHETICATION_RESULT=101;
+    private static final int AUTHETICATION_RESULT = 101;
     private static final int GET_PERMISSION = 102;
     private static final String PARAMETER_PROFILE = "parameters";
 
@@ -64,39 +63,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
-        if(BuildConfig.DEBUG)Log.i(TAG,"onDestroy");
+    protected void onDestroy() {
+        if (BuildConfig.DEBUG) Log.i(TAG, "onDestroy");
         super.onDestroy();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case AUTHETICATION_RESULT:
-                if ( resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_FAILURE) {
+                if (resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_FAILURE) {
                     String dataError;
                     if (data != null &&
-                            (dataError= data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_ERROR))!=null &&
+                            (dataError = data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_ERROR)) != null &&
                             dataError instanceof String) {
-                        Log.e(TAG,"Authentication Error: "+dataError);
-                    }else{
-                        Log.e(TAG,"Error processing authentication.");
+                        Log.e(TAG, "Authentication Error: " + dataError);
+                    } else {
+                        Log.e(TAG, "Error processing authentication.");
                     }
-                }else if ( resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_OK) {
+                } else if (resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_OK) {
                     String dataUri;
                     if (data != null &&
-                            (dataUri= data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_RESPONSE))!=null &&
+                            (dataUri = data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_RESPONSE)) != null &&
                             dataUri instanceof String) {
                         URI uri = null;
                         try {
                             uri = new URI(dataUri);
                             Log.i(TAG, "Uri: " + uri.toString());
                         } catch (URISyntaxException e) {
-                            Log.e(TAG,"Authentication Error: "+e.getMessage());
+                            Log.e(TAG, "Authentication Error: " + e.getMessage());
                             e.printStackTrace();
                         }
-                    }else{
-                        Log.e(TAG,"Error processing file to import profiles.");
+                    } else {
+                        Log.e(TAG, "Error processing file to import profiles.");
                     }
                 }
                 break;
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Set permissions for Android 6.0 or above
      */
-    protected void setPermissions(){
+    protected void setPermissions() {
         //Set permissions
         //READ_PHONE_STATE
         if (ContextCompat.checkSelfPermission(this,
@@ -119,19 +118,19 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                ) {
+        ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.RECORD_AUDIO)) {
                 //Show an explanation to the user *asynchronously* -- don't block
                 //this thread waiting for the user's response! After the user
                 //sees the explanation, request the permission again.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA,Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         GET_PERMISSION);
             } else {
                 //No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA,Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         GET_PERMISSION);
 
                 //MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions,grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case GET_PERMISSION: {
                 //If request is cancelled, result arrays are empty.
@@ -171,11 +170,11 @@ public class MainActivity extends AppCompatActivity {
      * API>22
      */
     @TargetApi(Build.VERSION_CODES.M)
-    protected void setPermissionsWriteSetting(){
+    protected void setPermissionsWriteSetting() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!Settings.System.canWrite(this)){
+            if (!Settings.System.canWrite(this)) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:"+  this.getPackageName()));
+                intent.setData(Uri.parse("package:" + this.getPackageName()));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

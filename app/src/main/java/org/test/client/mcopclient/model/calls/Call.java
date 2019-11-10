@@ -9,7 +9,8 @@ public class Call implements Callable {
     private String sessionId;
     private CallConfig callConfig;
 
-    Call() {}
+    Call() {
+    }
 
     Call(String id, CallConfig callConfig) {
         this.calleeId = id;

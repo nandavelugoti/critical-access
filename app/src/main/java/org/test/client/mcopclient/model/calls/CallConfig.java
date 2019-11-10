@@ -30,6 +30,6 @@ public class CallConfig {
     }
 
     public int getCallTypeEnumValue() {
-        return  callType.getValue() | mediaType.getValue() | floorControlType.getValue() | emergencyType.getValue();
+        return callType.getValue() | mediaType.getValue() | floorControlType.getValue() | emergencyType.getValue();
     }
 }

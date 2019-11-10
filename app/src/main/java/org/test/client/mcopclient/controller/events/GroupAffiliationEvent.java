@@ -14,20 +14,20 @@ public class GroupAffiliationEvent implements EventListener {
 
     @Override
     public void handleEvent(Intent action) {
-        int eventTypeInt=action.getIntExtra(ConstantsMCOP.GroupAffiliationEventExtras.EVENT_TYPE,ERROR_CODE_DEFAULT);
-        ConstantsMCOP.GroupAffiliationEventExtras.GroupAffiliationEventTypeEnum eventTypeAffiliation=null;
-        if(eventTypeInt!=ERROR_CODE_DEFAULT &&
-                (eventTypeAffiliation=ConstantsMCOP.GroupAffiliationEventExtras.GroupAffiliationEventTypeEnum.fromInt(eventTypeInt))!=null ){
+        int eventTypeInt = action.getIntExtra(ConstantsMCOP.GroupAffiliationEventExtras.EVENT_TYPE, ERROR_CODE_DEFAULT);
+        ConstantsMCOP.GroupAffiliationEventExtras.GroupAffiliationEventTypeEnum eventTypeAffiliation = null;
+        if (eventTypeInt != ERROR_CODE_DEFAULT &&
+                (eventTypeAffiliation = ConstantsMCOP.GroupAffiliationEventExtras.GroupAffiliationEventTypeEnum.fromInt(eventTypeInt)) != null) {
             switch (eventTypeAffiliation) {
                 case GROUP_AFFILIATION_UPDATE:
-                    Map<String, Integer> groups=(HashMap<String, Integer>)action.getSerializableExtra(ConstantsMCOP.GroupAffiliationEventExtras.GROUPS_LIST);
+                    Map<String, Integer> groups = (HashMap<String, Integer>) action.getSerializableExtra(ConstantsMCOP.GroupAffiliationEventExtras.GROUPS_LIST);
 
                     break;
                 case GROUP_AFFILIATION_ERROR:
-                    if(action.getIntExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_CODE,ERROR_CODE_DEFAULT)!=ERROR_CODE_DEFAULT){
+                    if (action.getIntExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT) != ERROR_CODE_DEFAULT) {
                         // Error in unLoginEvent
-                        String stringError=action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_STRING);
-                        String groupID=action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.GROUP_ID);
+                        String stringError = action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_STRING);
+                        String groupID = action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.GROUP_ID);
                     }
                     break;
                 case REMOTE_AFFILIATION:
@@ -35,7 +35,7 @@ public class GroupAffiliationEvent implements EventListener {
                 default:
                     break;
             }
-        }else{
+        } else {
         }
 
     }

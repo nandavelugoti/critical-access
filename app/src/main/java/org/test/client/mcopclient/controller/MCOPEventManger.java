@@ -3,6 +3,8 @@ package org.test.client.mcopclient.controller;
 import android.content.Intent;
 import android.util.Log;
 
+import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.ConstantsMCOP.ActionsCallBack;
 import org.test.client.mcopclient.controller.events.AuthorizationRequestEvent;
 import org.test.client.mcopclient.controller.events.CallEvent;
 import org.test.client.mcopclient.controller.events.ConfigurationUpdateEvent;
@@ -14,38 +16,36 @@ import org.test.client.mcopclient.controller.events.GroupInfoEvent;
 import org.test.client.mcopclient.controller.events.LoginEvent;
 import org.test.client.mcopclient.controller.events.SelectedContactChangeEvent;
 import org.test.client.mcopclient.controller.events.UnLoginEvent;
-import org.test.client.mcopclient.ConstantsMCOP;
-import org.test.client.mcopclient.ConstantsMCOP.ActionsCallBack;
 
 import java.util.Objects;
 
 public class MCOPEventManger {
     private final static String TAG = MCOPEventManger.class.getCanonicalName();
 
-    private static AuthorizationRequestEvent mAuthorizationRequestEvent= new AuthorizationRequestEvent();
-    private static CallEvent mCallEvent= new CallEvent();
-    private static ConfigurationUpdateEvent mConfigurationUpdateEvent= new ConfigurationUpdateEvent();
-    private static EMBMSNotificationEvent mEMBMSNotificationEvent= new EMBMSNotificationEvent();
-    private static FloorControlEvent mFloorControlEvent= new FloorControlEvent();
-    private static GroupInfoEvent mGroupInfoEvent= new GroupInfoEvent();
-    private static GroupAffiliationEvent mGroupAffiliationEvent= new GroupAffiliationEvent();
-    private static LoginEvent mLoginEvent= new LoginEvent();
-    private static SelectedContactChangeEvent mSelectedContactChangeEvent= new SelectedContactChangeEvent();
-    private static UnLoginEvent mUnLoginEvent= new UnLoginEvent();
+    private static AuthorizationRequestEvent mAuthorizationRequestEvent = new AuthorizationRequestEvent();
+    private static CallEvent mCallEvent = new CallEvent();
+    private static ConfigurationUpdateEvent mConfigurationUpdateEvent = new ConfigurationUpdateEvent();
+    private static EMBMSNotificationEvent mEMBMSNotificationEvent = new EMBMSNotificationEvent();
+    private static FloorControlEvent mFloorControlEvent = new FloorControlEvent();
+    private static GroupInfoEvent mGroupInfoEvent = new GroupInfoEvent();
+    private static GroupAffiliationEvent mGroupAffiliationEvent = new GroupAffiliationEvent();
+    private static LoginEvent mLoginEvent = new LoginEvent();
+    private static SelectedContactChangeEvent mSelectedContactChangeEvent = new SelectedContactChangeEvent();
+    private static UnLoginEvent mUnLoginEvent = new UnLoginEvent();
 
     public static void handleEvent(Intent action) {
         try {
             ActionsCallBack eventType = ConstantsMCOP.ActionsCallBack.fromString(action.getAction());
             EventListener event = getEvent(Objects.requireNonNull(eventType));
-            if(event != null)
+            if (event != null)
                 event.handleEvent(action);
-        }catch (Exception ex){
-            Log.e(TAG,"Event Action Error: "+action.getAction()+" error:"+ex.getMessage());
+        } catch (Exception ex) {
+            Log.e(TAG, "Event Action Error: " + action.getAction() + " error:" + ex.getMessage());
         }
     }
 
     private static EventListener getEvent(ActionsCallBack eventType) {
-        switch (eventType){
+        switch (eventType) {
             case authorizationRequestEvent:
                 return mAuthorizationRequestEvent;
             case loginEvent:
