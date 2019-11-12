@@ -19,8 +19,8 @@ import org.test.client.mcopclient.controller.events.UnLoginEvent;
 
 import java.util.Objects;
 
-public class MCOPEventManger {
-    private final static String TAG = MCOPEventManger.class.getCanonicalName();
+public class MCOPEventManager {
+    private final static String TAG = MCOPEventManager.class.getCanonicalName();
 
     private static AuthorizationRequestEvent mAuthorizationRequestEvent = new AuthorizationRequestEvent();
     private static CallEvent mCallEvent = new CallEvent();

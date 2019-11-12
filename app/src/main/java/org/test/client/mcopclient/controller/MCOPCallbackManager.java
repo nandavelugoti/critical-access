@@ -14,7 +14,7 @@ public class MCOPCallbackManager extends IMCOPCallback.Stub {
     public void handleOnEvent(final List<Intent> actionList) {
         for (Intent action : actionList) {
             if (action != null && action.getAction() != null && !action.getAction().trim().isEmpty())
-                MCOPEventManger.handleEvent(action);
+                MCOPEventManager.handleEvent(action);
         }
     }
 }

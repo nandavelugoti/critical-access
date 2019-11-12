@@ -15,7 +15,10 @@ import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.model.calls.Call;
 
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +100,8 @@ public class MCOPServiceManager {
                 Log.i(TAG, "Bind Service: " + CriticalAccess.getContext().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE));
         }
     }
+
+
 
     public static IMCOPsdk getService() {
         return mConnection.getService();

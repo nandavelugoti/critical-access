@@ -5,14 +5,15 @@ import android.os.RemoteException;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 
 public class Call implements Callable {
+    public String getId() {
+        return calleeId;
+    }
+
     private String calleeId;
     private String sessionId;
     private CallConfig callConfig;
 
-    Call() {
-    }
-
-    Call(String id, CallConfig callConfig) {
+    public Call(String id, CallConfig callConfig) {
         this.calleeId = id;
         this.callConfig = callConfig;
     }

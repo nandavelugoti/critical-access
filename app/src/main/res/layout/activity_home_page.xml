@@ -83,7 +83,8 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_shape"
-                    android:text="PTT" />
+                    android:text="PTT"
+                    android:onClick=""/>
 
             </LinearLayout>
 
