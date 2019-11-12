@@ -109,4 +109,5 @@ public class MCOPConfigurationManager {
     public static boolean isIdMSCMS() {
         return IdMSCMS;
     }
+    public static void destroy() {}
 }

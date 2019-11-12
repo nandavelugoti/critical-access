@@ -6,7 +6,10 @@ import org.test.client.mcopclient.model.ConstantsMCOP;
 
 public class PrivateCall extends Call {
     boolean withFloorControl = true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> intermediate
     PrivateCall() {
     }
 }

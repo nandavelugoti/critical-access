@@ -1,10 +1,10 @@
 package org.test.client.mcopclient.model.calls;
 
+
 import android.os.RemoteException;
 import android.util.Log;
 
 import org.mcopenplatform.muoapi.IMCOPsdk;
-import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.view.MainActivity;
 import org.test.client.mcopclient.model.ConstantsMCOP;
@@ -15,28 +15,38 @@ public class Call implements Callable {
     private String selGroup = "sip:iit2_group@organization.org";
 
     private IMCOPsdk mService;
-    private enum CallType {
-        PRIVATE,
-        GROUP,
-        BROADCAST,
-        // AMBIENT,
-        CHATGROUP
-    }
-    private CallType mCallType = CallType.GROUP;
+//    private enum CallType {
+//        PRIVATE,
+//        GROUP,
+//        BROADCAST,
+//        // AMBIENT,
+//        CHATGROUP
+//    }
+
+    private CallConfig callConfig;
+
+    // private CallType mCallType = CallType.GROUP;
 
     private int priority;  // 0 = Normal Call, 1 = Imminent Peril, 2 = Emergency Call
     private int status;  // 0 = ringing, 1 = accepted, 2 = rejected, 3 = active
     private User caller;
-    private
+    private String id;
 
-    Call(User callerid) {
-
-        this.caller = callerid;
-
+    Call(String id, CallConfig callConfig) {
+        this.id = id;
+        this.callConfig = callConfig;
     }
 
     public int getStatus() {
         return status;
+    }
+
+    public int getPriority() {
+        return callConfig.getEmergencyType();
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     @Override
@@ -217,4 +227,6 @@ public class Call implements Callable {
     public void update() {
         //priority = updatedPriority;
     }
+
+
 }
