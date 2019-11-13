@@ -1,0 +1,10 @@
+<p align="center"><a href="https://mcopenplatform.org" target="_blank" rel="noopener noreferrer"><img src="https://demo.mcopenplatform.org/gitlist/mcop/MCOP-MCPTT-Client.git/raw/master/images/logoMCOP_MD_w400px.png" alt="MCOP logo"></a></p>
+
+# MCOP MCPTT Client v2.0The **MCOP MCPTT Client v2.0** comprises different elements connected by Android’s binder mechanism including the **MCPTT Client GUI**, the **MCOP SDK** (responsible of MCPTT protocols) and **low level plugins** to access SIM card, eMBMS, connectivity and configuration-oam to be deployed to get access to Mission Critical capabilities.
+
+Check [**MCOP MCPTT Client Installation**](https://demo.mcopenplatform.org/gitlist/mcop/MCOP-MCPTT-Client.git/blob/master/docs/MCOP_MCPTT_Client_Installation.md) for instructions.
+
+License terms are defined in the [Licensing](https://demo.mcopenplatform.org/gitlist/mcop/MCOP-MCPTT-Client.git/blob/master/docs/Licensing.md) and [Doubango](https://demo.mcopenplatform.org/gitlist/mcop/MCOP-MCPTT-Client.git/blob/master/docs/Licensing_Doubango.md) files. * For testing purposes, the [**MCOP Demo Platform**](https://demo.mcopenplatform.org/) is also available. Check the **demo.mcopenplatform.org** section on the [**Provisioning Tool documentation**](docs/ProvisioningTool.md) page for more information on how to request access to our platform and configure the application.
+
+* Refer to [**MCOP SDK** Installation](https://demo.mcopenplatform.org/gitlist/mcop/MCOP-SDK.git/blob/master/docs/MCOP_SDK_Installation.md) for detailed **MCOP SDK** installation and testing steps. The [MCOP MCPTT App Development](docs/MCOP_App_developing_steps.md) guide provides more info on app development using the MCOP SDK.This application uses [Doubango Framework](https://www.doubango.org/).Refer to [Doubango IMSDroid README](docs/imsdroid_README.md) for additional IMS/SIP compatibility statements.
+**Copyright (C) 2019, University of the Basque Country (UPV/EHU)**For more information, please visit [MCOP - Resources](https://www.mcopenplatform.org/mcop_resources/) or [MCOP webpage](https://www.mcopenplatform.org).
