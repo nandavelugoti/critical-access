@@ -108,7 +108,7 @@
                         android:background="@android:color/transparent"
                         android:layout_weight="1"
                         android:layout_gravity="center_horizontal"
-                        app:srcCompat="@drawable/round_videocam_black_18dp"
+                        app:srcCompat="@drawable/ic_videocam_black"
                         android:onClick="btnVideoOnClick"/>
                 </LinearLayout>
 
@@ -125,7 +125,8 @@
                         android:background="@android:color/transparent"
                         android:layout_weight="1"
                         android:layout_gravity="center_horizontal"
-                        app:srcCompat="@drawable/round_volume_mute_black_18dp"
+                        app:srcCompat="@drawable/volume_off"
+                        android:onClick="btnSpeakerOnClick"
                         />
                 </LinearLayout>
 
@@ -150,7 +151,7 @@
                         android:layout_gravity="center|center_horizontal|center_vertical"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/baseline_local_hospital_black_18dp"
+                        app:srcCompat="@drawable/ic_peril_black"
                         android:onClick="btnPerilOnClick"/>
                 </LinearLayout>
 
@@ -161,14 +162,15 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/ambient_button"
+                        android:id="@+id/button_ambient"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@android:color/transparent"
                         android:layout_weight="1"
                         android:layout_gravity="center_horizontal"
-                        app:srcCompat="@drawable/baseline_speaker_phone_black_18dp"
-                        android:onClick="btnSpeakerOnClick"/>
+                        app:srcCompat="@drawable/ic_speaker_phone_grey"
+                        android:onClick="btnAmbientOnClick"
+                        />
                 </LinearLayout>
 
             </LinearLayout>
@@ -195,7 +197,7 @@
                         android:layout_gravity="start"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/round_add_circle_outline_black_18dp" />
+                        app:srcCompat="@drawable/ic_broadcast_grey" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -212,7 +214,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/baseline_call_end_black_18dp" />
+                        app:srcCompat="@drawable/ic_call_end_black" />
 
                 </LinearLayout>
 
