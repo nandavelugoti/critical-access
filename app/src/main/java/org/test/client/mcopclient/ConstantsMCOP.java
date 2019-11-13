@@ -178,7 +178,7 @@ public class ConstantsMCOP {
          * <p>  202 IMS authentication error</p>
          * <p>  203 Synchronization error between SIM and IMS</p>
          * <p>  204 SIM access error</p>
-         * <p>  205 It is not possible to register because the customer is registered right now</p>
+         * <p>  205 It is not possible to login because the customer is registered right now</p>
          * <p>  206 the URL for the authentication is not valid</p>
          * <p>  207 There was an error in the registration process</p>
          * <p>  208 Error in the authentication process</p>

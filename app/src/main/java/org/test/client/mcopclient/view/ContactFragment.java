@@ -7,13 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
-import android.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.User;
 
 import java.util.ArrayList;
@@ -31,13 +31,7 @@ public class ContactFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // get real list of groups
-        listUsers = new ArrayList<>();
-        listUsers.add(new User("ID", "Name 1", R.drawable.group_photo));
-        listUsers.add(new User("ID", "Name 2", R.drawable.group_photo));
-        listUsers.add(new User("ID", "Name 3", R.drawable.group_photo));
-        listUsers.add(new User("ID", "Name 4", R.drawable.group_photo));
-        listUsers.add(new User("ID", "Name 5", R.drawable.group_photo));
-        listUsers.add(new User("ID", "Name 6", R.drawable.group_photo));
+        listUsers = AddressBook.getAllUsers();
     }
 
     @Nullable

@@ -1,19 +1,31 @@
 package org.test.client.mcopclient.model;
 
-public class Group {
-    String name;
-    int photo;
+import org.test.client.mcopclient.R;
 
-    public Group(String name, int photo) {
-        this.name = name;
+public class Group {
+    private String mcpttID;
+    private String displayName;
+    private int photo;
+
+    public Group(String mcpttID, String displayName) {
+        this(mcpttID, displayName, R.drawable.group_photo);
+    }
+
+    public Group(String mcpttID, String displayName, int photo) {
+        this.mcpttID = mcpttID;
+        this.displayName = displayName;
         this.photo = photo;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public int getPhoto() {
         return photo;
+    }
+
+    public String getMcpttID(){
+        return mcpttID;
     }
 }

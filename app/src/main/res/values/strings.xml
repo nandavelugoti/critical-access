@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MCOP MCPTT Demo Client</string>
+    <string name="app_name">Critical Access</string>
 
     <!-- Buttons -->
     <string name="btn_register">REGISTER</string>
@@ -46,5 +46,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">Register</string>
+    <string name="unregister">unregister</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="authentication_setting">Authentication Setting</string>
+    <string name="registration_setting">Registration Setting</string>
 
 </resources>

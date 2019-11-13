@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.controller.MCOPCallManager;
-import org.test.client.mcopclient.controller.MCOPServiceManager;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
 
@@ -20,7 +19,7 @@ public class CallEvent implements EventListener {
         String callerID = action.getStringExtra(ConstantsMCOP.CallEventExtras.CALLER_USERID);
         int callType = action.getIntExtra(ConstantsMCOP.CallEventExtras.CALL_TYPE, ERROR_CODE_DEFAULT);
         int updateCallType = action.getIntExtra(ConstantsMCOP.CallEventExtras.CALL_TYPE, ERROR_CODE_DEFAULT);
-        MCOPServiceManager.mapSessionToCall(sessionID, callerID);
+        MCOPCallManager.mapSessionToCall(sessionID, callerID);
         if (eventTypeInt != ERROR_CODE_DEFAULT &&
                 (eventTypeCall = ConstantsMCOP.CallEventExtras.CallEventEventTypeEnum.fromInt(eventTypeInt)) != null) {
             switch (eventTypeCall) {
@@ -32,10 +31,10 @@ public class CallEvent implements EventListener {
 
                     if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Prearranged Emergency Group Call");
-                        MCOPCallManager.startERState();
+                        //MCOPCallManager.startERState();
                     } else if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Private Emergency Call");
-                        MCOPCallManager.startERState();
+                        //MCOPCallManager.startERState();
                     }
 
                     break;
@@ -50,10 +49,10 @@ public class CallEvent implements EventListener {
                     Log.d(TAG, "STATE: CONNECTED");
                     if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrearrangedGroupEmergency) {
                         Log.d(TAG, "Prearranged Emergency Group Call");
-                        MCOPCallManager.startERState();
+                        //MCOPCallManager.startERState();
                     } else if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Private Emergency Call");
-                        MCOPCallManager.startERState();
+                        //MCOPCallManager.startERState();
                     }
                     break;
                 case TERMINATED:

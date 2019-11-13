@@ -22,6 +22,8 @@
 
 package org.test.client.mcopclient.model;
 
+import org.test.client.mcopclient.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,14 +35,18 @@ public class User {
     private String mcpttID;
     private String displayName;
     private Map<String, String> sessionIDs;
-    private boolean isRegisted;
     private ArrayList<String> groups;
     private int photo;
 
     public User(String mcpttID, String displayName) {
+        this(mcpttID, displayName, R.drawable.group_photo);
+    }
+
+    public User(String mcpttID, String displayName, int photo) {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
-        sessionIDs = new HashMap<String, String>();
+        this.photo = photo;
+        sessionIDs=new HashMap<String,String>();
     }
 
     public int getPhoto() {
@@ -51,18 +57,9 @@ public class User {
         this.photo = photo;
     }
 
-    public User(String mcpttID, String displayName, int photo) {
-        this.mcpttID = mcpttID;
-        this.displayName = displayName;
-        this.photo = photo;
-        sessionIDs=new HashMap<String,String>();
-    }
-
-
     public User(String mcpttID, String displayName, boolean isRegisted) {
         this.mcpttID = mcpttID;
         this.displayName = displayName;
-        this.isRegisted = isRegisted;
         sessionIDs = new HashMap<String, String>();
     }
 
@@ -86,14 +83,6 @@ public class User {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public boolean isRegisted() {
-        return isRegisted;
-    }
-
-    public void setRegisted(boolean registed) {
-        isRegisted = registed;
     }
 
     public List<String> getSessionIDs() {

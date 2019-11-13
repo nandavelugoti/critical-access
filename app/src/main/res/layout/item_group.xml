@@ -41,12 +41,12 @@
 
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/image_call"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_gravity="center_horizontal|end"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/baseline_call_black_18dp" />
+            app:srcCompat="@drawable/baseline_call_black_18dp"/>
     </LinearLayout>
 
 </LinearLayout>

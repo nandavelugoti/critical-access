@@ -14,11 +14,7 @@ import org.mcopenplatform.muoapi.IMCOPsdk;
 import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
-import org.test.client.mcopclient.model.User;
-import org.test.client.mcopclient.model.calls.Call;
 
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +24,8 @@ public class MCOPServiceManager {
     private final static String TAG = MCOPServiceManager.class.getCanonicalName();
     private static Intent serviceIntent;
     private static MCOPServiceConnection mConnection;
-    private static User user;
     private static String currentProfile;
     private static Map<String, String> clients;
-    private boolean registered = false;
 
     public static void initialize(List<String> profiles) {
         if (mConnection == null) {
@@ -43,9 +37,6 @@ public class MCOPServiceManager {
             clients = parameterClients;
 
         MCOPConfigurationManager.loadConfiguration(CriticalAccess.getContext());
-
-        if (user == null) ;
-        user = new User();
 
         TelephonyManager tm = (TelephonyManager) CriticalAccess.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         if (tm != null) {
@@ -63,7 +54,7 @@ public class MCOPServiceManager {
 
     public static void connectService(String client) {
         if (BuildConfig.DEBUG) Log.d(TAG, "connectService execute");
-        if (!mConnection.isConnected()) {
+        if (mConnection != null && !mConnection.isConnected()) {
             serviceIntent = new Intent()
                     .setComponent(new ComponentName(
                             "org.mcopenplatform.muoapi",
@@ -101,9 +92,15 @@ public class MCOPServiceManager {
         }
     }
 
-
-
     public static IMCOPsdk getService() {
         return mConnection.getService();
+    }
+
+    public static void login() {
+        mConnection.register();
+    }
+
+    public static void logout() {
+        mConnection.unRegister();
     }
 }

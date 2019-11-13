@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,18 +27,7 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // get real list of groups
-        listGroups = new ArrayList<>();
-        listGroups.add(new Group("Groupe 1", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 2", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 3", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 4", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 5", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 6", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 7", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 8", R.drawable.group_photo));
-        listGroups.add(new Group("Groupe 9", R.drawable.group_photo));
+        listGroups = AddressBook.getAllGroups();
     }
 
     @Nullable

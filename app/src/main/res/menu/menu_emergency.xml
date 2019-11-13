@@ -8,4 +8,10 @@
         android:icon="@drawable/baseline_report_black_18dp"
         android:title="Emergency"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/button_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Settings"
+        app:showAsAction="always"/>
 </menu>

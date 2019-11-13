@@ -56,7 +56,7 @@ public class MCOPServiceConnection implements ServiceConnection {
         isConnected = false;
     }
 
-    private void register() {
+    public void register() {
         if (MCOPConfigurationManager.isIdMSCMS()) {
             //IdMS
             try {
@@ -73,6 +73,16 @@ public class MCOPServiceConnection implements ServiceConnection {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void unRegister() {
+        try {
+            if(mService!=null) {
+                mService.unLoginMCOP();
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 

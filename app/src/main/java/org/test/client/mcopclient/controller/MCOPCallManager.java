@@ -13,18 +13,18 @@ import org.test.client.mcopclient.view.DialogMenu;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class MCOPCallManager {
     private final static String TAG = MCOPCallManager.class.getCanonicalName();
     private static List<Call> allCalls = null;
     private static Call currentCall;
     private static Map<String, Call> sessionCallMap = new HashMap<>();
-    private MCOPServiceManager serviceManager = null;
+    private static boolean isERState = false;
     private static StatusTokenType currentStatusToken = StatusTokenType.NONE;
+    private static User user = new User();
 
-    public static void makeCall(String id, CallConfig callConfig) {
-        currentCall = new Call(id, callConfig);
+    public static void makeCall(CallConfig callConfig) {
+        currentCall = new Call(user.getMcpttID(), callConfig);
         allCalls.add(currentCall);
         try {
             currentCall.call();
@@ -76,7 +76,8 @@ public class MCOPCallManager {
                 //mDialogIds.show(CriticalAccess.getContext().getSupportFragmentManager(), "SimpleDialog");
             }
             Call selectedCall = sessionCallMap.get(sessionIds[index[0]]);
-            selectedCall.floorControlOperation(request ? ConstantsMCOP.FloorControlEventExtras.
+            if(selectedCall != null)
+                selectedCall.floorControlOperation(request ? ConstantsMCOP.FloorControlEventExtras.
                             FloorControlOperationTypeEnum.MCPTT_Request.getValue() : ConstantsMCOP.
                             FloorControlEventExtras.FloorControlOperationTypeEnum.MCPTT_Release.getValue(),
                     null);
@@ -85,15 +86,24 @@ public class MCOPCallManager {
         }
     }
 
-    public static void startERState() {
+    private static void startERState() {
 
     }
 
-    public static void endERState() {
+    private static void endERState() {
 
     }
 
-    public static void destroy() {
+    public static StatusTokenType getCurrentStatusToken() {
+        return currentStatusToken;
+    }
 
+    public static void toggleERState() {
+        isERState=!isERState;
+        if (isERState) {
+            startERState();
+        } else {
+            endERState();
+        }
     }
 }
