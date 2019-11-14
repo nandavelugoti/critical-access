@@ -19,7 +19,7 @@ public class MCOPConfigurationManager {
     private static final String PARAMETER_CONFIG_IDMSCMS = "TAG.PARAMETER_CONFIG_IDMSCMS";
     private static final String PARAMETER_CONFIG_AUTOREGISTER = "TAG.PARAMETER_CONFIG_AUTOREGISTER";
     private static boolean IdMSCMS = false;
-    private static boolean autoRegister = false;
+    private static boolean AutoRegister = false;
     private static PreferencesManagerDefault preferencesManager = new PreferencesManagerDefault();
     private static Context ctx = null;
 
@@ -34,9 +34,9 @@ public class MCOPConfigurationManager {
             }
             String auto = preferencesManager.getString(ctx, PARAMETER_CONFIG_AUTOREGISTER, "Manual");
             if (auto.equals("Automatic")) {
-                autoRegister = true;
+                AutoRegister = true;
             } else {
-                autoRegister = false;
+                AutoRegister = false;
             }
         }
     }
@@ -88,7 +88,7 @@ public class MCOPConfigurationManager {
             } else {
                 preferencesManager.putString(ctx, PARAMETER_CONFIG_IDMSCMS, "None");
             }
-            if (autoRegister) {
+            if (AutoRegister) {
                 preferencesManager.putString(ctx, PARAMETER_CONFIG_AUTOREGISTER, "Automatic");
             } else {
                 preferencesManager.putString(ctx, PARAMETER_CONFIG_AUTOREGISTER, "Manual");
@@ -99,13 +99,20 @@ public class MCOPConfigurationManager {
     }
 
     public static boolean isAutoRegister() {
-        return autoRegister;
+        return AutoRegister;
     }
 
     public static boolean isIdMSCMS() {
         return IdMSCMS;
     }
 
-    public static void destroy() {
+    public static void setIdMSCMS(boolean idMSCMS) {
+        IdMSCMS = idMSCMS;
+        saveConfiguration();
+    }
+
+    public static  void setAutoRegister(boolean autoRegister) {
+        AutoRegister = autoRegister;
+        saveConfiguration();
     }
 }

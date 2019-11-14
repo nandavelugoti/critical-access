@@ -6,7 +6,9 @@ import android.util.Log;
 import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
+import org.test.client.mcopclient.view.HomePage;
 import org.test.client.mcopclient.view.ScreenAuthenticationWebView;
+import org.test.client.mcopclient.view.SettingsActivity;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
 
@@ -28,9 +30,7 @@ public class AuthorizationRequestEvent implements EventListener {
             ) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "onAuthentication URI: " + requestUri + " redirectionURI: " + redirect);
-                Intent intent2 = new Intent(CriticalAccess.getContext(), ScreenAuthenticationWebView.class);
-                intent2.putExtra(ScreenAuthenticationWebView.DATA_URI_INTENT, requestUri.trim());
-                intent2.putExtra(ScreenAuthenticationWebView.DATA_REDIRECTION_URI, redirect.trim());
+                HomePage.startLogin(requestUri, redirect);
             }
         }
     }

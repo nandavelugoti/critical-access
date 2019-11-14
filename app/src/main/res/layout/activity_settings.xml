@@ -76,17 +76,22 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
             <RadioGroup
+                android:id="@+id/rg_authentication"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16sp">
                 <RadioButton
+                    android:id="@+id/rb_idms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="IdMS/CMS" />
+                    android:text="IdMS/CMS"
+                    android:onClick="rbIdMSClick"/>
                 <RadioButton
+                    android:id="@+id/rb_no_auth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Authentication" />
+                    android:text="No Authentication"
+                    android:onClick="rbNoAuthOnClick"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -103,17 +108,22 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
             <RadioGroup
+                android:id="@+id/rg_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16sp">
                 <RadioButton
+                    android:id="@+id/rb_auto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Auto" />
+                    android:text="Auto"
+                    android:onClick="rbAutoOnClick"/>
                 <RadioButton
+                    android:id="@+id/rb_manual"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Manual" />
+                    android:text="Manual"
+                    android:onClick="rbManualOnClick"/>
             </RadioGroup>
         </LinearLayout>
 
