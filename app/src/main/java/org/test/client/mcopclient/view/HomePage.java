@@ -2,9 +2,14 @@ package org.test.client.mcopclient.view;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +24,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.controller.MCOPCallManager;
@@ -40,6 +47,11 @@ public class HomePage extends AppCompatActivity {
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
     private Button btnPTT;
+    private View bottomSheet;
+    private boolean isIPState = false;
+    private GradientDrawable gradientDrawableBottomSheet;
+    private boolean isSpeakerphoneOn = false;
+    private boolean isAmbientOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +67,28 @@ public class HomePage extends AppCompatActivity {
             ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
             MCOPServiceManager.initialize(strings);
         }
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        btnPTT = (Button) findViewById(R.id.btn_call);
+        btnPTT = (Button) findViewById(R.id.button_ptt);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        View bottomSheet = findViewById(R.id.design_bottom_sheet);
-        final BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheet = findViewById(R.id.design_bottom_sheet);
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setHideable(false);
         behavior.setPeekHeight(200);
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        Drawable background = bottomSheet.getBackground();
+        gradientDrawableBottomSheet = (GradientDrawable) background;
+
     }
 
     private void initializeAddressBook() {
@@ -104,7 +123,13 @@ public class HomePage extends AppCompatActivity {
 
         switch (id) {
             case R.id.button_emergency:
-                MCOPCallManager.toggleERState();
+                boolean isERState = MCOPCallManager.toggleERState();
+                if (isERState){
+                    gradientDrawableBottomSheet.setColor(Color.RED);
+                    isIPState = false;
+                } else {
+                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this,R.color.colorAccent));
+                }
                 break;
             case R.id.button_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -115,14 +140,18 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void updateBtnPTT() {
+        Drawable background = btnPTT.getBackground();
+        GradientDrawable gradientDrawablePTT = (GradientDrawable) background;
         switch (MCOPCallManager.getCurrentStatusToken()) {
             case IDLE:
+                gradientDrawablePTT.setColor(Color.DKGRAY);
             case GRANTED:
-                btnPTT.setBackgroundColor(Color.GREEN);
+                gradientDrawablePTT.setColor(Color.GREEN);
                 break;
             case NONE:
+                gradientDrawablePTT.setColor(Color.DKGRAY);
             case TAKEN:
-                btnPTT.setBackgroundColor(Color.GRAY);
+                gradientDrawablePTT.setColor(Color.GRAY);
                 break;
         }
     }
@@ -248,10 +277,35 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void btnPerilOnClick(View view) {
-
+        isIPState = !isIPState;
+        if (isIPState){
+            gradientDrawableBottomSheet.setColor(Color.BLUE);
+        } else {
+            gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this,R.color.colorAccent));
+        }
     }
 
     public void btnSpeakerOnClick(View view) {
+        ImageButton btnSpeaker = (ImageButton) findViewById(R.id.button_mute);
+        AudioManager mAudioManager;
+        mAudioManager =  (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
+        isSpeakerphoneOn = !isSpeakerphoneOn;
+        if (isSpeakerphoneOn){
+            btnSpeaker.setImageResource(R.drawable.volume_up);
+        } else {
+            btnSpeaker.setImageResource(R.drawable.volume_off);
+        }
+        mAudioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+    }
+
+    public void btnAmbientOnClick(View view) {
+        ImageButton btnAmbient = (ImageButton) findViewById(R.id.button_ambient);
+        isAmbientOn = !isAmbientOn;
+        if (isAmbientOn){
+            btnAmbient.setImageResource(R.drawable.ic_speaker_phone_black);
+        } else {
+            btnAmbient.setImageResource(R.drawable.ic_speaker_phone_grey);
+        }
     }
 }

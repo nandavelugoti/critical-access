@@ -98,12 +98,13 @@ public class MCOPCallManager {
         return currentStatusToken;
     }
 
-    public static void toggleERState() {
+    public static boolean toggleERState() {
         isERState=!isERState;
         if (isERState) {
             startERState();
         } else {
             endERState();
         }
+        return isERState;
     }
 }
