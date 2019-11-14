@@ -13,7 +13,7 @@ android {
     /**
      * This
      */
-    packagingOptions{
+    packagingOptions {
         doNotStrip "*/armeabi/*.so"
         doNotStrip "*/armeabi-v7a/*.so"
         doNotStrip "*/x86/*.so"
@@ -35,6 +35,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -45,4 +46,5 @@ dependencies {
     api 'com.android.support:cardview-v7:' + rootProject.supportLibVersion
     api 'com.android.support:support-v4:' + rootProject.supportLibVersion
     api 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 }
