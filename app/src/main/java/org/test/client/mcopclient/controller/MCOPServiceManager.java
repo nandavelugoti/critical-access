@@ -40,12 +40,14 @@ public class MCOPServiceManager {
 
         TelephonyManager tm = (TelephonyManager) CriticalAccess.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         if (tm != null) {
-            if (ActivityCompat.checkSelfPermission(CriticalAccess.getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(CriticalAccess.getContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 String imei = tm.getDeviceId();
-                String client = clients.get(imei);
-                if (client != null) {
-                    currentProfile = client;
-                    Log.i(TAG, "currentProfile: " + currentProfile);
+                if(clients != null) {
+                    String client = clients.get(imei);
+                    if (client != null) {
+                        currentProfile = client;
+                        Log.i(TAG, "currentProfile: " + currentProfile);
+                    }
                 }
                 connectService(currentProfile);
             }

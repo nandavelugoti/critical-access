@@ -48,4 +48,9 @@ public class AddressBook {
     public static List<Group> getAllGroups() {
         return groups;
     }
+
+    public static void clearAll() {
+        groups.clear();
+        users.clear();
+    }
 }

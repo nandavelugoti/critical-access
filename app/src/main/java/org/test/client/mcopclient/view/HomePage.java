@@ -2,6 +2,7 @@ package org.test.client.mcopclient.view;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
@@ -40,10 +42,11 @@ public class HomePage extends AppCompatActivity {
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
     private Button btnPTT;
-
+    private static Context ctx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx=this;
         initializeAddressBook();
         setContentView(R.layout.activity_home_page);
         Log.d(TAG, "onCreate: Starting.");
@@ -59,7 +62,7 @@ public class HomePage extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        btnPTT = (Button) findViewById(R.id.btn_call);
+        btnPTT = (Button) findViewById(R.id.button_ptt);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -70,6 +73,12 @@ public class HomePage extends AppCompatActivity {
         behavior.setHideable(false);
         behavior.setPeekHeight(200);
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AddressBook.clearAll();
     }
 
     private void initializeAddressBook() {
@@ -237,6 +246,12 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+    public static void startLogin(String requestUri, String redirect) {
+        Intent intent2 = new Intent(ctx, ScreenAuthenticationWebView.class);
+        intent2.putExtra(ScreenAuthenticationWebView.DATA_URI_INTENT, requestUri.trim());
+        intent2.putExtra(ScreenAuthenticationWebView.DATA_REDIRECTION_URI, redirect.trim());
+        ctx.startActivity(intent2);
     }
 
     public void btnPTTOnClick(View view) {
