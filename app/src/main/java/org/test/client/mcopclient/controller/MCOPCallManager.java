@@ -3,6 +3,7 @@ package org.test.client.mcopclient.controller;
 import android.os.RemoteException;
 
 import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.model.Group;
 import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.model.calls.Call;
 import org.test.client.mcopclient.model.calls.CallConfig;
@@ -11,34 +12,37 @@ import org.test.client.mcopclient.model.calls.StatusTokenType;
 import org.test.client.mcopclient.view.DialogMenu;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MCOPCallManager {
     private final static String TAG = MCOPCallManager.class.getCanonicalName();
-    private static List<Call> allCalls = null;
+    private static Set<Call> allCalls = null;
     private static Call currentCall;
     private static Map<String, Call> sessionCallMap = new HashMap<>();
     private static boolean isERState = false;
     private static StatusTokenType currentStatusToken = StatusTokenType.NONE;
-    private static User user = new User();
 
-    public static void makeCall(CallConfig callConfig) {
+    public static void makePrivateCall(User user, CallConfig callConfig) {
         currentCall = new Call(user.getMcpttID(), callConfig);
         allCalls.add(currentCall);
+        makeCurrentCall();
+    }
+
+    public static void makeGroupCall(Group group, CallConfig config) {
+        currentCall = new Call(group.getMcpttID(), config);
+        allCalls.add(currentCall);
+        makeCurrentCall();
+    }
+
+    private static void makeCurrentCall() {
         try {
             currentCall.call();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
-    public static void hangup() {
-        try {
-            currentCall.hangup();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
+
     public static void updateState(EmergencyType emergencyType) {
         try {
             currentCall.updateState(emergencyType);
@@ -54,8 +58,10 @@ public class MCOPCallManager {
                 if (call.getId().equals(callerId))
                     sessionCall = call;
             }
-            if (sessionCall != null)
+            if (sessionCall != null) {
+                sessionCall.setSessionId(sessionId);
                 sessionCallMap.put(sessionId, sessionCall);
+            }
         }
     }
 
@@ -106,5 +112,17 @@ public class MCOPCallManager {
             endERState();
         }
         return isERState;
+    }
+
+    public static void hangup(Group group) {
+        for(Call call : allCalls) {
+            if(call.getId().equals(group.getMcpttID())) {
+                try {
+                    call.hangup();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

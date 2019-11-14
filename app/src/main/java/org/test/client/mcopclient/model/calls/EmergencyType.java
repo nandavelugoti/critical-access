@@ -3,6 +3,7 @@ package org.test.client.mcopclient.model.calls;
 import org.test.client.mcopclient.ConstantsMCOP;
 
 public enum EmergencyType {
+    None(ConstantsMCOP.CallEventExtras.CallTypeEnum.None),
     Emergency(ConstantsMCOP.CallEventExtras.CallTypeEnum.Emergency),
     ImminentPeril(ConstantsMCOP.CallEventExtras.CallTypeEnum.Emergency),
     EmergencyAlert(ConstantsMCOP.CallEventExtras.CallTypeEnum.Emergency);

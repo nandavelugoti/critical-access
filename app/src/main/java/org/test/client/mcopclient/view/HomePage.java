@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
@@ -28,13 +27,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
 import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.model.calls.CallConfig;
+import org.test.client.mcopclient.model.calls.CallType;
+import org.test.client.mcopclient.model.calls.EmergencyType;
+import org.test.client.mcopclient.model.calls.FloorControlType;
+import org.test.client.mcopclient.model.calls.MediaType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -51,8 +54,10 @@ public class HomePage extends AppCompatActivity {
     private View bottomSheet;
     private boolean isIPState = false;
     private GradientDrawable gradientDrawableBottomSheet;
-    private boolean isSpeakerphoneOn = false;
-    private boolean isAmbientOn = false;
+    private static boolean isSpeakerphoneOn = false;
+    private static boolean isAmbientOn = false;
+    private static boolean isVideoCall = false;
+    private static boolean isERState = false;
     private static Context ctx;
     
     @Override
@@ -132,7 +137,7 @@ public class HomePage extends AppCompatActivity {
 
         switch (id) {
             case R.id.button_emergency:
-                boolean isERState = MCOPCallManager.toggleERState();
+                isERState = MCOPCallManager.toggleERState();
                 if (isERState){
                     gradientDrawableBottomSheet.setColor(Color.RED);
                     isIPState = false;
@@ -288,7 +293,13 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void btnVideoOnClick(View view) {
-
+        ImageButton btnVideo = (ImageButton) findViewById(R.id.button_video);
+        isVideoCall = !isVideoCall;
+        if (isVideoCall){
+            btnVideo.setImageResource(R.drawable.ic_videocam_black);
+        } else {
+            btnVideo.setImageResource(R.drawable.ic_videocam_off_black_18dp);
+        }
     }
 
     public void btnPerilOnClick(View view) {
@@ -322,5 +333,15 @@ public class HomePage extends AppCompatActivity {
         } else {
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_grey);
         }
+    }
+
+    public static CallConfig getCallConfig() {
+        CallConfig currentConfig = null;
+        MediaType mediaType = isVideoCall ? MediaType.Video : MediaType.Audio;
+        FloorControlType floorControlType = FloorControlType.WithFloorCtrl;
+        EmergencyType emergencyType = isERState ? EmergencyType.Emergency : EmergencyType.None;
+        CallType callType = CallType.PrearrangedGroup;
+        currentConfig = new CallConfig(mediaType, floorControlType, emergencyType, callType);
+        return  currentConfig;
     }
 }

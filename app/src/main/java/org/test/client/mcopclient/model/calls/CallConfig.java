@@ -6,7 +6,7 @@ public class CallConfig {
     private FloorControlType floorControlType;
     private EmergencyType emergencyType;
 
-    CallConfig(MediaType mediaType, FloorControlType floorControlType, EmergencyType emergencyType, CallType callType) {
+    public CallConfig(MediaType mediaType, FloorControlType floorControlType, EmergencyType emergencyType, CallType callType) {
         this.mediaType = mediaType;
         this.floorControlType = floorControlType;
         this.emergencyType = emergencyType;

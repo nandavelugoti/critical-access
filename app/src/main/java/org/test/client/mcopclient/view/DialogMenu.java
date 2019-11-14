@@ -63,7 +63,6 @@ public class DialogMenu extends DialogFragment {
         super.onCreate(savedInstanceState);
         this.items = getArguments().getStringArray(PARAMETER_MENU_ITEM);
         this.title = getArguments().getString(PARAMETER_MENU_TITLE);
-
     }
 
 

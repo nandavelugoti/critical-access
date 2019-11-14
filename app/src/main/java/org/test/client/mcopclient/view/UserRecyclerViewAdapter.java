@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
-import org.test.client.mcopclient.model.Group;
 import org.test.client.mcopclient.model.User;
 
 import java.util.List;
@@ -63,6 +62,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
                     Toast.makeText(CriticalAccess.getContext(), "OnClick MyViewHolder ", Toast.LENGTH_SHORT).show();
                     int pos = getAdapterPosition();
                     if(canCall) {
+
                     } else {
 
                     }

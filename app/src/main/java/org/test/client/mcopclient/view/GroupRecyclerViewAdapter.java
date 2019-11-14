@@ -12,7 +12,10 @@ import android.widget.Toast;
 
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.controller.MCOPCallManager;
+import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
+import org.test.client.mcopclient.model.calls.CallConfig;
 
 import java.util.List;
 
@@ -46,10 +49,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private boolean canCall = true;
+        private boolean isCallInProgress = false;
         private TextView txtDisplayName;
         private ImageView imgPhoto, imgCall;
-
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -61,13 +63,14 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(CriticalAccess.getContext(), "OnClick MyViewHolder ", Toast.LENGTH_SHORT).show();
-                    int pos = getAdapterPosition();
-                    if(canCall) {
+                    if(isCallInProgress) {
+                        CallConfig config = HomePage.getCallConfig();
+                        MCOPCallManager.makeGroupCall(AddressBook.getGroupByName(txtDisplayName.getText().toString()), config);
                     } else {
-
+                        MCOPCallManager.hangup(AddressBook.getGroupByName(txtDisplayName.getText().toString()));
                     }
-                    canCall = !canCall;
-                    imgCall.setImageResource(canCall ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
+                    isCallInProgress = !isCallInProgress;
+                    imgCall.setImageResource(isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
                 }
             });
         }

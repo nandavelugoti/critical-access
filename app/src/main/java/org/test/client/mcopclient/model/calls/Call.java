@@ -10,6 +10,23 @@ public class Call implements Callable {
     }
 
     private String calleeId;
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public CallConfig getCallConfig() {
+        return callConfig;
+    }
+
+    public void setCallConfig(CallConfig callConfig) {
+        this.callConfig = callConfig;
+    }
+
     private String sessionId;
     private CallConfig callConfig;
 

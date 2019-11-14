@@ -24,6 +24,15 @@ public class AddressBook {
         return userData;
     }
 
+    public static User getUserByName(final String name) {
+        User userData = null;
+        for (User user : users) {
+            if (user.getDisplayName().equals(name))
+                userData = user;
+        }
+        return userData;
+    }
+
     public static List<User> getAllUsers() {
         return users;
     }
@@ -52,5 +61,14 @@ public class AddressBook {
     public static void clearAll() {
         groups.clear();
         users.clear();
+    }
+
+    public static Group getGroupByName(String name) {
+        Group groupData = null;
+        for (Group group : groups) {
+            if (group.getDisplayName().equals(name))
+                groupData = group;
+        }
+        return groupData;
     }
 }
