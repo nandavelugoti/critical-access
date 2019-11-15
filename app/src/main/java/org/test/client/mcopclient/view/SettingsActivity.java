@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -14,14 +15,21 @@ import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.controller.MCOPConfigurationManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
+import org.test.client.mcopclient.controller.events.AuthorizationRequestEvent;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
+    private final static String TAG = AuthorizationRequestEvent.class.getCanonicalName();
+
     static TextView tvDisplayName, tvMcpttId;
     static Button btnLogin, btnLogout;
     static RadioButton rbIDMS, rbNoAuth, rbAuto, rbManual;
     private static Context ctx;
+    private static final int AUTHETICATION_RESULT = 101;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +73,48 @@ public class SettingsActivity extends AppCompatActivity {
                 rbManual.setChecked(!MCOPConfigurationManager.isAutoRegister());
             }
         });
+    }
+
+    public static void startLogin(String requestUri, String redirect) {
+        Intent intent2 = new Intent(ctx, ScreenAuthenticationWebView.class);
+        intent2.putExtra(ScreenAuthenticationWebView.DATA_URI_INTENT, requestUri.trim());
+        intent2.putExtra(ScreenAuthenticationWebView.DATA_REDIRECTION_URI, redirect.trim());
+        ((SettingsActivity) ctx).startActivityForResult(intent2, AUTHETICATION_RESULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case AUTHETICATION_RESULT:
+                if (resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_FAILURE) {
+                    String dataError;
+                    if (data != null &&
+                            (dataError = data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_ERROR)) != null &&
+                            dataError instanceof String) {
+                        Log.e(TAG, "Authentication Error: " + dataError);
+                    } else {
+                        Log.e(TAG, "Error processing authentication.");
+                    }
+                } else if (resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_OK) {
+                    String dataUri;
+                    if (data != null &&
+                            (dataUri = data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_RESPONSE)) != null &&
+                            dataUri instanceof String) {
+                        URI uri = null;
+                        try {
+                            uri = new URI(dataUri);
+                            MCOPServiceManager.authorizeUser(uri);
+                            Log.i(TAG, "Uri: " + uri.toString());
+                        } catch (URISyntaxException e) {
+                            Log.e(TAG, "Authentication Error: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.e(TAG, "Error processing file to import profiles.");
+                    }
+                }
+                break;
+        }
     }
 
     public void btnLoginOnClick(View view) {

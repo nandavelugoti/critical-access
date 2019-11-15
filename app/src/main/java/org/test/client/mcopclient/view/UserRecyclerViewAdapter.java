@@ -63,7 +63,6 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
             imgCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(CriticalAccess.getContext(), "OnClick MyViewHolder ", Toast.LENGTH_SHORT).show();
                     if(!isCallInProgress) {
                         CallConfig config = MCOPCallManager.getCallConfig();
                         MCOPCallManager.makePrivateCall(MCOPServiceManager.AddressBook.getUserByName(txtDisplayName.getText().toString()), config);

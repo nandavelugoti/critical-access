@@ -2,8 +2,10 @@ package org.test.client.mcopclient.controller.events;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
@@ -17,6 +19,8 @@ public class UnLoginEvent implements EventListener {
         if (action.getIntExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT) != ERROR_CODE_DEFAULT) {
             // Error in unLoginEvent
             String stringError = action.getStringExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_STRING);
+            Toast.makeText(CriticalAccess.getContext(), stringError, Toast.LENGTH_SHORT).show();
+
         } else {
             // No error
             boolean success = false;

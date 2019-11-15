@@ -37,6 +37,7 @@ import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
 import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.model.calls.Call;
 import org.test.client.mcopclient.model.calls.CallConfig;
 import org.test.client.mcopclient.model.calls.CallType;
 import org.test.client.mcopclient.model.calls.EmergencyType;
@@ -54,7 +55,6 @@ import static org.test.client.mcopclient.model.calls.StatusTokenType.NONE;
 
 public class HomePage extends AppCompatActivity {
     private static final String TAG = HomePage.class.getCanonicalName();
-    private static final int AUTHETICATION_RESULT = 101;
     private static final int GET_PERMISSION = 102;
     private static final String PARAMETER_PROFILE = "parameters";
     private SectionsPageAdapter mSectionsPageAdapter;
@@ -198,7 +198,9 @@ public class HomePage extends AppCompatActivity {
         ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvCallName.setText(MCOPCallManager.getCurrentCall().getId());
+                Call currentCall = MCOPCallManager.getCurrentCall();
+                if(currentCall != null)
+                tvCallName.setText(currentCall.getId());
             }
         });
     }
@@ -207,7 +209,9 @@ public class HomePage extends AppCompatActivity {
         ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvCallerName.setText(MCOPCallManager.getTokenHolder().getDisplayName());
+                User tokenHolder = MCOPCallManager.getTokenHolder();
+                if(tokenHolder != null)
+                    tvCallerName.setText(tokenHolder.getDisplayName());
             }
         });
     }
@@ -234,40 +238,7 @@ public class HomePage extends AppCompatActivity {
         });
 
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case AUTHETICATION_RESULT:
-                if (resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_FAILURE) {
-                    String dataError;
-                    if (data != null &&
-                            (dataError = data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_ERROR)) != null &&
-                            dataError instanceof String) {
-                        Log.e(TAG, "Authentication Error: " + dataError);
-                    } else {
-                        Log.e(TAG, "Error processing authentication.");
-                    }
-                } else if (resultCode == ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_LISTENER_OK) {
-                    String dataUri;
-                    if (data != null &&
-                            (dataUri = data.getStringExtra(ScreenAuthenticationWebView.RETURN_ON_AUTHENTICATION_RESPONSE)) != null &&
-                            dataUri instanceof String) {
-                        URI uri = null;
-                        try {
-                            uri = new URI(dataUri);
-                            MCOPServiceManager.authorizeUser(uri);
-                            Log.i(TAG, "Uri: " + uri.toString());
-                        } catch (URISyntaxException e) {
-                            Log.e(TAG, "Authentication Error: " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Log.e(TAG, "Error processing file to import profiles.");
-                    }
-                }
-                break;
-        }
-    }
+
 
 
     // END GUI
@@ -346,16 +317,6 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-    }
-    public static void startLogin(String requestUri, String redirect) {
-        Intent intent2 = new Intent(ctx, ScreenAuthenticationWebView.class);
-        intent2.putExtra(ScreenAuthenticationWebView.DATA_URI_INTENT, requestUri.trim());
-        intent2.putExtra(ScreenAuthenticationWebView.DATA_REDIRECTION_URI, redirect.trim());
-        ((HomePage) ctx).startActivityForResult(intent2, AUTHETICATION_RESULT);
-    }
-
-    public void btnPTTOnClick(View view) {
-
     }
 
     public void btnVideoOnClick(View view) {

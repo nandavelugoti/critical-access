@@ -2,8 +2,10 @@ package org.test.client.mcopclient.controller.events;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
@@ -24,6 +26,7 @@ public class FloorControlEvent implements EventListener {
             // Error in unLoginEvent
             sessionID = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.SESSION_ID);
             String stringError = action.getStringExtra(ConstantsMCOP.UnLoginEventExtras.ERROR_STRING);
+            Toast.makeText(CriticalAccess.getContext(), stringError, Toast.LENGTH_SHORT).show();
         } else {
             // No error
             boolean success = false;
@@ -41,6 +44,7 @@ public class FloorControlEvent implements EventListener {
                         Log.d(TAG, "TOKEN GRANTED");
                         MCOPCallManager.setCurrentStatusToken(StatusTokenType.GRANTED);
                         int durationGranted = action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.DURATION_TOKEN, ERROR_CODE_DEFAULT);
+                        Toast.makeText(CriticalAccess.getContext(), "Duration Granted: " + durationGranted, Toast.LENGTH_SHORT).show();
                         MCOPCallManager.setTokenHolder(MCOPServiceManager.AddressBook.getCurrentUser());
                         break;
                     case idle:
@@ -60,11 +64,14 @@ public class FloorControlEvent implements EventListener {
                         Log.d(TAG, "TOKEN DENIED");
                         causeString = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_STRING);
                         causeInt = action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_CODE, ERROR_CODE_DEFAULT);
+                        Toast.makeText(CriticalAccess.getContext(), "Token Denied: " + causeString + " - " + causeInt, Toast.LENGTH_SHORT).show();
                         break;
                     case revoked:
                         Log.d(TAG, "TOKEN REVOKED");
                         causeString = action.getStringExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_STRING);
                         causeInt = action.getIntExtra(ConstantsMCOP.FloorControlEventExtras.CAUSE_CODE, ERROR_CODE_DEFAULT);
+                        Toast.makeText(CriticalAccess.getContext(), "Token Revoked: " + causeString + " - " + causeInt, Toast.LENGTH_SHORT).show();
+
                         break;
                     default:
                         break;

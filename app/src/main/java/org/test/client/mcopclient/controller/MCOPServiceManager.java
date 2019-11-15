@@ -127,5 +127,8 @@ public class MCOPServiceManager {
 
     public static void authorizeUser(URI uri) {
         mConnection.authorizeUser(uri);
+        AddressBook.setCurrentUser(new User(uri.toString(), uri.toString()));
+        isUserLoggedIn = true;
+        SettingsActivity.updateUI();
     }
 }

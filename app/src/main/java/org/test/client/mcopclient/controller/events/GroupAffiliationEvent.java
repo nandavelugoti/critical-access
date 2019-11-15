@@ -1,8 +1,10 @@
 package org.test.client.mcopclient.controller.events;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.CriticalAccess;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +29,9 @@ public class GroupAffiliationEvent implements EventListener {
                     if (action.getIntExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT) != ERROR_CODE_DEFAULT) {
                         // Error in unLoginEvent
                         String stringError = action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_STRING);
+                        Toast.makeText(CriticalAccess.getContext(), stringError, Toast.LENGTH_SHORT).show();
                         String groupID = action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.GROUP_ID);
+                        Toast.makeText(CriticalAccess.getContext(), "Group Affiliation: " + groupID, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case REMOTE_AFFILIATION:
