@@ -31,10 +31,10 @@ public class CallEvent implements EventListener {
 
                     if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Prearranged Emergency Group Call");
-                        //MCOPCallManager.startERState();
+                        MCOPCallManager.startERState();
                     } else if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Private Emergency Call");
-                        //MCOPCallManager.startERState();
+                        MCOPCallManager.startERState();
                     }
 
                     break;
@@ -49,10 +49,10 @@ public class CallEvent implements EventListener {
                     Log.d(TAG, "STATE: CONNECTED");
                     if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrearrangedGroupEmergency) {
                         Log.d(TAG, "Prearranged Emergency Group Call");
-                        //MCOPCallManager.startERState();
+                        MCOPCallManager.startERState();
                     } else if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Private Emergency Call");
-                        //MCOPCallManager.startERState();
+                        MCOPCallManager.startERState();
                     }
                     break;
                 case TERMINATED:

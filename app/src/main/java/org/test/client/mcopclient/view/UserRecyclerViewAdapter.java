@@ -12,7 +12,11 @@ import android.widget.Toast;
 
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.controller.MCOPCallManager;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
+import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.model.calls.CallConfig;
 
 import java.util.List;
 
@@ -46,7 +50,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private boolean canCall = true;
+        private boolean isCallInProgress = true;
         private TextView txtDisplayName;
         private ImageView imgPhoto, imgCall;
 
@@ -60,14 +64,14 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(CriticalAccess.getContext(), "OnClick MyViewHolder ", Toast.LENGTH_SHORT).show();
-                    int pos = getAdapterPosition();
-                    if(canCall) {
-
+                    if(!isCallInProgress) {
+                        CallConfig config = MCOPCallManager.getCallConfig();
+                        MCOPCallManager.makePrivateCall(MCOPServiceManager.AddressBook.getUserByName(txtDisplayName.getText().toString()), config);
                     } else {
-
+                        MCOPCallManager.hangup(MCOPServiceManager.AddressBook.getUserByName(txtDisplayName.getText().toString()).getMcpttID());
                     }
-                    canCall = !canCall;
-                    imgCall.setImageResource(canCall ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
+                    isCallInProgress = !isCallInProgress;
+                    imgCall.setImageResource(isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
                 }
             });
         }

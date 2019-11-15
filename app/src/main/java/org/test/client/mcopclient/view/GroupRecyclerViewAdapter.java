@@ -13,6 +13,7 @@ import android.widget.Toast;
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.controller.MCOPCallManager;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
 import org.test.client.mcopclient.model.calls.CallConfig;
@@ -63,14 +64,14 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(CriticalAccess.getContext(), "OnClick MyViewHolder ", Toast.LENGTH_SHORT).show();
-                    if(isCallInProgress) {
-                        CallConfig config = HomePage.getCallConfig();
-                        MCOPCallManager.makeGroupCall(AddressBook.getGroupByName(txtDisplayName.getText().toString()), config);
+                    if(!isCallInProgress) {
+                        CallConfig config = MCOPCallManager.getCallConfig();
+                        MCOPCallManager.makeGroupCall(MCOPServiceManager.AddressBook.getGroupByName(txtDisplayName.getText().toString()), config);
                     } else {
-                        MCOPCallManager.hangup(AddressBook.getGroupByName(txtDisplayName.getText().toString()));
+                        MCOPCallManager.hangup(MCOPServiceManager.AddressBook.getGroupByName(txtDisplayName.getText().toString()).getMcpttID());
                     }
                     isCallInProgress = !isCallInProgress;
-                    imgCall.setImageResource(isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
+                    imgCall.setImageResource(!isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
                 }
             });
         }

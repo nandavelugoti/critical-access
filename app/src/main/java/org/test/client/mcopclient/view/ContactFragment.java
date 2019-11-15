@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.User;
 
@@ -31,7 +32,7 @@ public class ContactFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // get real list of groups
-        listUsers = AddressBook.getAllUsers();
+        listUsers = MCOPServiceManager.AddressBook.getAllUsers();
     }
 
     @Nullable

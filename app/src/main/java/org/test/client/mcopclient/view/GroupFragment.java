@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
 
@@ -27,7 +28,7 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listGroups = AddressBook.getAllGroups();
+        listGroups = MCOPServiceManager.AddressBook.getAllGroups();
     }
 
     @Nullable

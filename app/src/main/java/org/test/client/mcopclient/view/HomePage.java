@@ -27,7 +27,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.R;
+import org.test.client.mcopclient.controller.MCOPAudioManager;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
@@ -52,12 +54,9 @@ public class HomePage extends AppCompatActivity {
     private ViewPager mViewPager;
     private Button btnPTT;
     private View bottomSheet;
-    private boolean isIPState = false;
-    private GradientDrawable gradientDrawableBottomSheet;
-    private static boolean isSpeakerphoneOn = false;
-    private static boolean isAmbientOn = false;
-    private static boolean isVideoCall = false;
-    private static boolean isERState = false;
+    private static GradientDrawable gradientDrawableBottomSheet;
+
+
     private static Context ctx;
     
     @Override
@@ -102,19 +101,19 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AddressBook.clearAll();
+        MCOPServiceManager.AddressBook.clearAll();
     }
 
     private void initializeAddressBook() {
         // Users
-        AddressBook.addUser(new User("sip:mcptt_id_iit2_A@organization.org", "User A"));
-        AddressBook.addUser(new User("sip:mcptt_id_iit2_B@organization.org", "User B"));
-        AddressBook.addUser(new User("sip:mcptt_id_iit2_C@organization.org", "User C"));
-        AddressBook.addUser(new User("sip:mcptt_id_iit2_D@organization.org", "User D"));
-        AddressBook.addUser(new User("sip:mcptt_id_iit2_E@organization.org", "User E"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_A@organization.org", "User A"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_B@organization.org", "User B"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_C@organization.org", "User C"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_D@organization.org", "User D"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_E@organization.org", "User E"));
 
         // Groups
-        AddressBook.addGroup(new Group("sip:iit2_group@organization.org", "Group 2"));
+        MCOPServiceManager.AddressBook.addGroup(new Group("sip:iit2_group@organization.org", "Group 2"));
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -137,13 +136,7 @@ public class HomePage extends AppCompatActivity {
 
         switch (id) {
             case R.id.button_emergency:
-                isERState = MCOPCallManager.toggleERState();
-                if (isERState){
-                    gradientDrawableBottomSheet.setColor(Color.RED);
-                    isIPState = false;
-                } else {
-                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this,R.color.colorAccent));
-                }
+                MCOPCallManager.toggleERState();
                 break;
             case R.id.button_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -153,17 +146,30 @@ public class HomePage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void updateERUI() {
+        ((HomePage)ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (MCOPCallManager.getIsERState()){
+                    gradientDrawableBottomSheet.setColor(Color.RED);
+                } else {
+                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(ctx,R.color.colorAccent));
+                }
+            }
+        });
+
+    }
+
     public void updateBtnPTT() {
         Drawable background = btnPTT.getBackground();
         GradientDrawable gradientDrawablePTT = (GradientDrawable) background;
         switch (MCOPCallManager.getCurrentStatusToken()) {
             case IDLE:
+            case NONE:
                 gradientDrawablePTT.setColor(Color.DKGRAY);
             case GRANTED:
                 gradientDrawablePTT.setColor(Color.GREEN);
                 break;
-            case NONE:
-                gradientDrawablePTT.setColor(Color.DKGRAY);
             case TAKEN:
                 gradientDrawablePTT.setColor(Color.GRAY);
                 break;
@@ -285,7 +291,7 @@ public class HomePage extends AppCompatActivity {
         Intent intent2 = new Intent(ctx, ScreenAuthenticationWebView.class);
         intent2.putExtra(ScreenAuthenticationWebView.DATA_URI_INTENT, requestUri.trim());
         intent2.putExtra(ScreenAuthenticationWebView.DATA_REDIRECTION_URI, redirect.trim());
-        ctx.startActivity(intent2);
+        ((HomePage) ctx).startActivityForResult(intent2, AUTHETICATION_RESULT);
     }
 
     public void btnPTTOnClick(View view) {
@@ -294,8 +300,8 @@ public class HomePage extends AppCompatActivity {
 
     public void btnVideoOnClick(View view) {
         ImageButton btnVideo = (ImageButton) findViewById(R.id.button_video);
-        isVideoCall = !isVideoCall;
-        if (isVideoCall){
+        MCOPCallManager.toggleVideoCall();
+        if (MCOPCallManager.getIsVideoCall()){
             btnVideo.setImageResource(R.drawable.ic_videocam_black);
         } else {
             btnVideo.setImageResource(R.drawable.ic_videocam_off_black_18dp);
@@ -303,8 +309,8 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void btnPerilOnClick(View view) {
-        isIPState = !isIPState;
-        if (isIPState){
+        MCOPCallManager.togglePerilCall();
+        if (MCOPCallManager.getIsIPState()){
             gradientDrawableBottomSheet.setColor(Color.BLUE);
         } else {
             gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this,R.color.colorAccent));
@@ -313,35 +319,23 @@ public class HomePage extends AppCompatActivity {
 
     public void btnSpeakerOnClick(View view) {
         ImageButton btnSpeaker = (ImageButton) findViewById(R.id.button_mute);
-        AudioManager mAudioManager;
-        mAudioManager =  (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-
-        isSpeakerphoneOn = !isSpeakerphoneOn;
-        if (isSpeakerphoneOn){
+        MCOPCallManager.toggleSpeaker();
+        if (MCOPCallManager.getIsSpeakerphoneOn()){
             btnSpeaker.setImageResource(R.drawable.volume_up);
+            MCOPAudioManager.setSpeakerphoneOn();
         } else {
             btnSpeaker.setImageResource(R.drawable.volume_off);
+            MCOPAudioManager.setSpeakerphoneOff();
         }
-        mAudioManager.setSpeakerphoneOn(isSpeakerphoneOn);
     }
 
     public void btnAmbientOnClick(View view) {
         ImageButton btnAmbient = (ImageButton) findViewById(R.id.button_ambient);
-        isAmbientOn = !isAmbientOn;
-        if (isAmbientOn){
+        MCOPCallManager.toggleAmbientCall();
+        if (MCOPCallManager.getIsAmbientOn()){
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_black);
         } else {
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_grey);
         }
-    }
-
-    public static CallConfig getCallConfig() {
-        CallConfig currentConfig = null;
-        MediaType mediaType = isVideoCall ? MediaType.Video : MediaType.Audio;
-        FloorControlType floorControlType = FloorControlType.WithFloorCtrl;
-        EmergencyType emergencyType = isERState ? EmergencyType.Emergency : EmergencyType.None;
-        CallType callType = CallType.PrearrangedGroup;
-        currentConfig = new CallConfig(mediaType, floorControlType, emergencyType, callType);
-        return  currentConfig;
     }
 }

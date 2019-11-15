@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -14,6 +15,9 @@ import org.mcopenplatform.muoapi.IMCOPsdk;
 import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
+import org.test.client.mcopclient.model.AddressBook;
+import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.view.SettingsActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,13 @@ public class MCOPServiceManager {
     private static MCOPServiceConnection mConnection;
     private static String currentProfile;
     private static Map<String, String> clients;
+
+    public static boolean isUserLoggedIn() {
+        return isUserLoggedIn;
+    }
+
+    private static boolean isUserLoggedIn = false;
+    public static AddressBook AddressBook = new AddressBook();
 
     public static void initialize(List<String> profiles) {
         if (mConnection == null) {
@@ -104,5 +115,12 @@ public class MCOPServiceManager {
 
     public static void logout() {
         mConnection.unRegister();
+    }
+
+    public static void updateCurrentUser(String mcptt_id, String displayName) {
+        User currentUser = new User(mcptt_id, displayName);
+        AddressBook.setCurrentUser(currentUser);
+        isUserLoggedIn = true;
+        SettingsActivity.updateUI();
     }
 }

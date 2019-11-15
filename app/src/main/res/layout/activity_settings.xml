@@ -18,6 +18,7 @@
             android:layout_margin="16sp"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/imgage_photo"
                 android:layout_width="@android:dimen/app_icon_size"
                 android:layout_height="@android:dimen/app_icon_size"
                 android:src="@drawable/group_photo"
@@ -26,16 +27,17 @@
                 android:gravity="center_horizontal"
                 android:layout_margin="16sp" />
             <TextView
+                android:id="@+id/tv_display_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="32sp"
                 android:text="Display Name" />
             <TextView
+                android:id="@+id/tv_mcptt_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16sp"
-
                 android:text="MCPTT ID" />
         </LinearLayout>
 
@@ -46,6 +48,7 @@
             android:orientation="horizontal"
             android:layout_margin="16sp">
             <Button
+                android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
@@ -54,12 +57,13 @@
                 android:backgroundTint="@color/colorAccent"
                 />
             <Button
+                android:id="@+id/btn_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/logout"
                 android:onClick="btnLogoutOnClick"
                 android:layout_margin="16sp"
-                android:backgroundTint="@color/colorAccent"
+                android:backgroundTint="@color/unregistered"
                 />
         </LinearLayout>
 
