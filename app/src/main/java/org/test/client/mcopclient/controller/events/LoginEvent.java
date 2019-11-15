@@ -29,7 +29,7 @@ public class LoginEvent implements EventListener {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Login success: " + success + " mcptt_id: " + mcptt_id);
                 displayName = action.getStringExtra(ConstantsMCOP.LoginEventExtras.DISPLAY_NAME);
-                MCOPServiceManager.updateCurrentUser(mcptt_id, displayName);
+                MCOPServiceManager.updateCurrentUser(mcptt_id, displayName, true);
             } else {
                 Log.e(TAG, "Error: Registration process");
             }
