@@ -22,10 +22,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.R;
@@ -40,10 +42,15 @@ import org.test.client.mcopclient.model.calls.CallType;
 import org.test.client.mcopclient.model.calls.EmergencyType;
 import org.test.client.mcopclient.model.calls.FloorControlType;
 import org.test.client.mcopclient.model.calls.MediaType;
+import org.test.client.mcopclient.model.calls.StatusTokenType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import static org.test.client.mcopclient.model.calls.StatusTokenType.GRANTED;
+import static org.test.client.mcopclient.model.calls.StatusTokenType.IDLE;
+import static org.test.client.mcopclient.model.calls.StatusTokenType.NONE;
 
 public class HomePage extends AppCompatActivity {
     private static final String TAG = HomePage.class.getCanonicalName();
@@ -52,10 +59,12 @@ public class HomePage extends AppCompatActivity {
     private static final String PARAMETER_PROFILE = "parameters";
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
-    private Button btnPTT;
+    private static Button btnPTT;
     private View bottomSheet;
-    private static GradientDrawable gradientDrawableBottomSheet;
+    private static TextView tvCallerName;
+    private static TextView tvCallName;
 
+    private static GradientDrawable gradientDrawableBottomSheet;
 
     private static Context ctx;
     
@@ -82,6 +91,31 @@ public class HomePage extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         btnPTT = (Button) findViewById(R.id.button_ptt);
+        btnPTT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                StatusTokenType currentToken = MCOPCallManager.getCurrentStatusToken();
+                if(currentToken != NONE && event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (currentToken == IDLE) {
+                        //Request token
+                        Log.d(TAG,"TOKEN REQUEST");
+                        MCOPCallManager.floorControlOperation(true);
+                    }
+                }else if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_UP) {
+                    if (currentToken == GRANTED) {
+                        //Release token
+                        Log.d(TAG,"TOKEN RELEASE");
+                        MCOPCallManager.floorControlOperation(false);
+
+                    }
+                }
+                updateBtnPTT();
+                return true;
+            }
+        });
+
+        tvCallerName = findViewById(R.id.caller);
+        tvCallName = findViewById(R.id.bottomsheet_text);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -160,20 +194,44 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    public void updateBtnPTT() {
-        Drawable background = btnPTT.getBackground();
-        GradientDrawable gradientDrawablePTT = (GradientDrawable) background;
-        switch (MCOPCallManager.getCurrentStatusToken()) {
-            case IDLE:
-            case NONE:
-                gradientDrawablePTT.setColor(Color.DKGRAY);
-            case GRANTED:
-                gradientDrawablePTT.setColor(Color.GREEN);
-                break;
-            case TAKEN:
-                gradientDrawablePTT.setColor(Color.GRAY);
-                break;
-        }
+    public static void updateCallInfo() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvCallName.setText(MCOPCallManager.getCurrentCall().getId());
+            }
+        });
+    }
+
+    public static void updateCallerInfo() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvCallerName.setText(MCOPCallManager.getTokenHolder().getDisplayName());
+            }
+        });
+    }
+
+    public static void updateBtnPTT() {
+        ((HomePage)ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Drawable background = btnPTT.getBackground();
+                GradientDrawable gradientDrawablePTT = (GradientDrawable) background;
+                switch (MCOPCallManager.getCurrentStatusToken()) {
+                    case IDLE:
+                    case NONE:
+                        gradientDrawablePTT.setColor(Color.DKGRAY);
+                    case GRANTED:
+                        gradientDrawablePTT.setColor(Color.GREEN);
+                        break;
+                    case TAKEN:
+                        gradientDrawablePTT.setColor(Color.RED);
+                        break;
+                }
+            }
+        });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -295,7 +353,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void btnPTTOnClick(View view) {
-        updateBtnPTT();
+
     }
 
     public void btnVideoOnClick(View view) {

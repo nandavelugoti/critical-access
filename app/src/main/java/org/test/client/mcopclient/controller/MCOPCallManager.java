@@ -23,8 +23,28 @@ import java.util.Set;
 public class MCOPCallManager {
     private final static String TAG = MCOPCallManager.class.getCanonicalName();
     private static Set<Call> allCalls = new HashSet<>();
+
+    public static Call getCurrentCall() {
+        return currentCall;
+    }
+
     private static Call currentCall;
     private static Map<String, Call> sessionCallMap = new HashMap<>();
+
+    public static User getTokenHolder() {
+        return tokenHolder;
+    }
+
+    public static void setTokenHolder(User tokenHolder) {
+        MCOPCallManager.tokenHolder = tokenHolder;
+    }
+
+    private static User tokenHolder;
+
+    public static void setCurrentStatusToken(StatusTokenType currentStatusToken) {
+        MCOPCallManager.currentStatusToken = currentStatusToken;
+    }
+
     private static StatusTokenType currentStatusToken = StatusTokenType.NONE;
 
     private static boolean isSpeakerphoneOn = false;

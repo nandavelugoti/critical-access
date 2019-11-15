@@ -117,10 +117,10 @@ public class MCOPServiceManager {
         mConnection.unRegister();
     }
 
-    public static void updateCurrentUser(String mcptt_id, String displayName) {
+    public static void updateCurrentUser(String mcptt_id, String displayName, boolean loggedIn) {
         User currentUser = new User(mcptt_id, displayName);
         AddressBook.setCurrentUser(currentUser);
-        isUserLoggedIn = true;
+        isUserLoggedIn = loggedIn;
         SettingsActivity.updateUI();
     }
 }

@@ -19,7 +19,8 @@ public class CallEvent implements EventListener {
         String callerID = action.getStringExtra(ConstantsMCOP.CallEventExtras.CALLER_USERID);
         int callType = action.getIntExtra(ConstantsMCOP.CallEventExtras.CALL_TYPE, ERROR_CODE_DEFAULT);
         int updateCallType = action.getIntExtra(ConstantsMCOP.CallEventExtras.CALL_TYPE, ERROR_CODE_DEFAULT);
-        MCOPCallManager.mapSessionToCall(sessionID, callerID);
+        if(sessionID != null && callerID != null)
+            MCOPCallManager.mapSessionToCall(sessionID, callerID);
         if (eventTypeInt != ERROR_CODE_DEFAULT &&
                 (eventTypeCall = ConstantsMCOP.CallEventExtras.CallEventEventTypeEnum.fromInt(eventTypeInt)) != null) {
             switch (eventTypeCall) {
