@@ -2,8 +2,10 @@ package org.test.client.mcopclient.controller.events;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceConnection;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
@@ -33,7 +35,7 @@ public class CallEvent implements EventListener {
                 case INCOMING:
                     Log.d(TAG, "STATE: INCOMING");
                     String stringError = action.getStringExtra(ConstantsMCOP.CallEventExtras.ERROR_STRING);
-
+                    Toast.makeText(CriticalAccess.getContext(), stringError, Toast.LENGTH_SHORT).show();
                     if (org.test.client.mcopclient.model.calls.CallEvent.validationCallType(callType) == org.test.client.mcopclient.model.calls.CallEvent.CallTypeValidEnum.AudioWithFloorCtrlPrivateEmergency) {
                         Log.d(TAG, "Prearranged Emergency Group Call");
                         MCOPCallManager.startERState();
@@ -70,6 +72,7 @@ public class CallEvent implements EventListener {
                     if (action.getIntExtra(ConstantsMCOP.CallEventExtras.ERROR_CODE, ERROR_CODE_DEFAULT) != ERROR_CODE_DEFAULT) {
                         // Error in callEvent
                         stringError = action.getStringExtra(ConstantsMCOP.CallEventExtras.ERROR_STRING);
+                        Toast.makeText(CriticalAccess.getContext(), stringError, Toast.LENGTH_LONG).show();
                     }
                     break;
                 case UPDATE:

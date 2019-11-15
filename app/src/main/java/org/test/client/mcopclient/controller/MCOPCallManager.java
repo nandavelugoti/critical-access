@@ -88,11 +88,12 @@ public class MCOPCallManager {
                 if (call.getId().equals(callerId))
                     sessionCall = call;
             }
-            if (sessionCall != null) {
-                sessionCall.setSessionId(sessionId);
-                sessionCallMap.put(sessionId, sessionCall);
+            if(sessionCall == null) {
+                sessionCall = new Call(callerId, null);
             }
-        }
+            sessionCall.setSessionId(sessionId);
+            sessionCallMap.put(sessionId, sessionCall);
+    }
     }
 
     public static void floorControlOperation(boolean request) {

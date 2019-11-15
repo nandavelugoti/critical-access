@@ -63,7 +63,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             imgCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(CriticalAccess.getContext(), "OnClick MyViewHolder ", Toast.LENGTH_SHORT).show();
                     if(!isCallInProgress) {
                         CallConfig config = MCOPCallManager.getCallConfig();
                         MCOPCallManager.makeGroupCall(MCOPServiceManager.AddressBook.getGroupByName(txtDisplayName.getText().toString()), config);
