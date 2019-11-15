@@ -30,7 +30,7 @@ public class AuthorizationRequestEvent implements EventListener {
             ) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "onAuthentication URI: " + requestUri + " redirectionURI: " + redirect);
-                HomePage.startLogin(requestUri, redirect);
+                SettingsActivity.startLogin(requestUri, redirect);
             }
         }
     }
