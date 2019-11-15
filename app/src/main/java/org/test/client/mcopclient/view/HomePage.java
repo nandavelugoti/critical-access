@@ -222,6 +222,7 @@ public class HomePage extends AppCompatActivity {
                     case IDLE:
                     case NONE:
                         gradientDrawablePTT.setColor(Color.DKGRAY);
+                        break;
                     case GRANTED:
                         gradientDrawablePTT.setColor(Color.GREEN);
                         break;
@@ -254,6 +255,7 @@ public class HomePage extends AppCompatActivity {
                         URI uri = null;
                         try {
                             uri = new URI(dataUri);
+                            MCOPServiceManager.authorizeUser(uri);
                             Log.i(TAG, "Uri: " + uri.toString());
                         } catch (URISyntaxException e) {
                             Log.e(TAG, "Authentication Error: " + e.getMessage());
