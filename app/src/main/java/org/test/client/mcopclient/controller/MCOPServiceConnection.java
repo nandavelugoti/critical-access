@@ -12,6 +12,8 @@ import org.mcopenplatform.muoapi.IMCOPCallback;
 import org.mcopenplatform.muoapi.IMCOPsdk;
 import org.test.client.mcopclient.CriticalAccess;
 
+import java.net.URI;
+
 
 public class MCOPServiceConnection implements ServiceConnection {
     private final static String TAG = MCOPServiceConnection.class.getCanonicalName();
@@ -92,5 +94,13 @@ public class MCOPServiceConnection implements ServiceConnection {
 
     boolean isConnected() {
         return isConnected;
+    }
+
+    public void authorizeUser(URI uri) {
+        try {
+            mService.authorizeUser(uri.toString());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,6 +5,10 @@ import android.util.Log;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.controller.MCOPCallManager;
+import org.test.client.mcopclient.controller.MCOPServiceConnection;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
+import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.view.HomePage;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
 
@@ -37,7 +41,7 @@ public class CallEvent implements EventListener {
                         Log.d(TAG, "Private Emergency Call");
                         MCOPCallManager.startERState();
                     }
-
+                    MCOPCallManager.setTokenHolder(MCOPServiceManager.AddressBook.getUser(callerID));
                     break;
                 case RINGING:
                     Log.d(TAG, "STATE: RINGING");
@@ -59,6 +63,7 @@ public class CallEvent implements EventListener {
                 case TERMINATED:
                     Log.d(TAG, "STATE: TERMINATED");
                     sessionID = action.getStringExtra(ConstantsMCOP.CallEventExtras.SESSION_ID);
+                    MCOPCallManager.hangup(MCOPCallManager.getCurrentCall().getId());
                     break;
                 case ERROR:
                     Log.e(TAG, "STATE: ERROR");
@@ -73,6 +78,10 @@ public class CallEvent implements EventListener {
                 default:
                     break;
             }
+            HomePage.updateCallInfo();
+            HomePage.updateCallerInfo();
+            HomePage.updateBtnPTT();
+            HomePage.updateERUI();
         }
     }
 }

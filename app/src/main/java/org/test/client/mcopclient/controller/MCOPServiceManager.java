@@ -19,6 +19,7 @@ import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.view.SettingsActivity;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -122,5 +123,9 @@ public class MCOPServiceManager {
         AddressBook.setCurrentUser(currentUser);
         isUserLoggedIn = loggedIn;
         SettingsActivity.updateUI();
+    }
+
+    public static void authorizeUser(URI uri) {
+        mConnection.authorizeUser(uri);
     }
 }
