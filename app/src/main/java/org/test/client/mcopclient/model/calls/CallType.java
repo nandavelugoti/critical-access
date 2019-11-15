@@ -2,8 +2,7 @@ package org.test.client.mcopclient.model.calls;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 
-enum CallType {
-    None(ConstantsMCOP.CallEventExtras.CallTypeEnum.None),
+public enum CallType {
     Private(ConstantsMCOP.CallEventExtras.CallTypeEnum.Private),
     Broadcast(ConstantsMCOP.CallEventExtras.CallTypeEnum.Broadcast),
     PrearrangedGroup(ConstantsMCOP.CallEventExtras.CallTypeEnum.PrearrangedGroup),

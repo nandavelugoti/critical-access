@@ -2,7 +2,7 @@ package org.test.client.mcopclient.model.calls;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 
-enum FloorControlType {
+public enum FloorControlType {
     WithFloorCtrl(ConstantsMCOP.CallEventExtras.CallTypeEnum.WithFloorCtrl),
     WithoutFloorCtrl(ConstantsMCOP.CallEventExtras.CallTypeEnum.WithoutFloorCtrl);
 

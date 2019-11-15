@@ -2,7 +2,7 @@ package org.test.client.mcopclient.model.calls;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 
-enum MediaType {
+public enum MediaType {
     Audio(ConstantsMCOP.CallEventExtras.CallTypeEnum.Audio),
     Video(ConstantsMCOP.CallEventExtras.CallTypeEnum.Video),
     Data(ConstantsMCOP.CallEventExtras.CallTypeEnum.Data);

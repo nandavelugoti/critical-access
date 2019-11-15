@@ -64,9 +64,6 @@ public class User {
     }
 
 
-    public User() {
-        sessionIDs = new HashMap<String, String>();
-    }
 
 
     public String getMcpttID() {

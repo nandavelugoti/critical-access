@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.test.client.mcopclient.ConstantsMCOP;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
 import static org.test.client.mcopclient.ConstantsMCOP.VALUE_BOOLEAN_DEFAULT;
@@ -20,6 +21,7 @@ public class UnLoginEvent implements EventListener {
             // No error
             boolean success = false;
             if ((success = action.getBooleanExtra(ConstantsMCOP.UnLoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) == true) {
+                MCOPServiceManager.updateCurrentUser("N/A", "N/A");
             } else {
                 Log.e(TAG, "Error: Unregistration process");
             }
