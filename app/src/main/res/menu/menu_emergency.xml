@@ -4,6 +4,12 @@
     tools:context="org.test.client.mcopclient.view.HomePage">
 
     <item
+        android:id="@+id/option_get_place"
+        android:icon="@drawable/ic_add_location_black_24dp"
+        android:title="@string/option_get_place"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/button_emergency"
         android:icon="@drawable/baseline_report_black_18dp"
         android:title="Emergency"
@@ -14,4 +20,5 @@
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Settings"
         app:showAsAction="always"/>
+
 </menu>
