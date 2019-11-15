@@ -8,10 +8,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.media.AudioManager;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
@@ -26,21 +27,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.R;
 import org.test.client.mcopclient.controller.MCOPAudioManager;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
-import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
 import org.test.client.mcopclient.model.User;
-import org.test.client.mcopclient.model.calls.CallConfig;
-import org.test.client.mcopclient.model.calls.CallType;
-import org.test.client.mcopclient.model.calls.EmergencyType;
-import org.test.client.mcopclient.model.calls.FloorControlType;
-import org.test.client.mcopclient.model.calls.MediaType;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -55,7 +51,7 @@ public class HomePage extends AppCompatActivity {
     private Button btnPTT;
     private View bottomSheet;
     private static GradientDrawable gradientDrawableBottomSheet;
-
+    private MediaRecorder audioRecorder;
 
     private static Context ctx;
     
@@ -96,6 +92,7 @@ public class HomePage extends AppCompatActivity {
         Drawable background = bottomSheet.getBackground();
         gradientDrawableBottomSheet = (GradientDrawable) background;
 
+        getAudioRecorderReady();
     }
 
     @Override
@@ -209,9 +206,6 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-
-    // END GUI
-
     /**
      * Set permissions for Android 6.0 or above
      */
@@ -224,7 +218,8 @@ public class HomePage extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.RECORD_AUDIO)) {
@@ -232,12 +227,12 @@ public class HomePage extends AppCompatActivity {
                 //this thread waiting for the user's response! After the user
                 //sees the explanation, request the permission again.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         GET_PERMISSION);
             } else {
                 //No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         GET_PERMISSION);
 
                 //MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
@@ -302,10 +297,32 @@ public class HomePage extends AppCompatActivity {
         ImageButton btnVideo = (ImageButton) findViewById(R.id.button_video);
         MCOPCallManager.toggleVideoCall();
         if (MCOPCallManager.getIsVideoCall()){
-            btnVideo.setImageResource(R.drawable.ic_videocam_black);
+            btnVideo.setImageResource(R.drawable.ic_mic_red);
+            try {
+                audioRecorder.prepare();
+                audioRecorder.start();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
         } else {
-            btnVideo.setImageResource(R.drawable.ic_videocam_off_black_18dp);
+            btnVideo.setImageResource(R.drawable.ic_mic_black);
+            audioRecorder.stop();
+            audioRecorder.release();
+            getAudioRecorderReady();
+            Toast.makeText(getApplicationContext(), "Recording stopped", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void getAudioRecorderReady() {
+        audioRecorder= new MediaRecorder();
+        audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        audioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+        audioRecorder.setOutputFile(outputFile);
     }
 
     public void btnPerilOnClick(View view) {

@@ -108,7 +108,7 @@
                         android:background="@android:color/transparent"
                         android:layout_weight="1"
                         android:layout_gravity="center_horizontal"
-                        app:srcCompat="@drawable/ic_videocam_black"
+                        app:srcCompat="@drawable/ic_mic_black"
                         android:onClick="btnVideoOnClick"/>
                 </LinearLayout>
 
