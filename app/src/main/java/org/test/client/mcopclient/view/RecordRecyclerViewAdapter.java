@@ -44,11 +44,10 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
         holder.txtDisplayName.setText(mData.getRecordNameByIndex(position));
         if (clickedPosition != null && clickedPosition != position){
             holder.btnPlayPause.setEnabled(false);
-            holder.btnPlayPause.setImageResource(R.drawable.ic_play_arrow_disabled);
-
+            holder.btnPlayPause.setImageAlpha(75);
         } else {
             holder.btnPlayPause.setEnabled(true);
-            holder.btnPlayPause.setImageResource(R.drawable.ic_play_arrow);
+            holder.btnPlayPause.setImageAlpha(255);
         }
     }
 
@@ -67,6 +66,7 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
         private String record;
         private FileInputStream fis;
         private int position;
+        private int posRecordPausedAt;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -74,6 +74,7 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
             btnPlayPause = itemView.findViewById(R.id.button_play_pause);
             btnStop = itemView.findViewById(R.id.button_stop_record);
             btnDelete = itemView.findViewById(R.id.button_delete_record);
+            posRecordPausedAt = 0;
 
             btnPlayPause.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,21 +84,29 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
                     position = getAdapterPosition();
 
                     if (isPlaying) {
+                        // show stop button
                         btnStop.setVisibility(View.VISIBLE);
-                        //stopPlaying();
-                        mediaPlayer = new MediaPlayer();
-                        try {
-                            clickedPosition = position;
-                            notifyDataSetChanged();
-                            record = mData.getFullRecordNameByIndex(position);
-                            File directory = new File(record);
-                            fis = new FileInputStream(directory);
-                            mediaPlayer.setDataSource(fis.getFD());
-                            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                            mediaPlayer.prepare();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                        // if play since beginning
+                        if(posRecordPausedAt == 0) {
+                            mediaPlayer = new MediaPlayer();
+                            try {
+                                record = mData.getFullRecordNameByIndex(position);
+                                File directory = new File(record);
+                                fis = new FileInputStream(directory);
+                                mediaPlayer.setDataSource(fis.getFD());
+                                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                                mediaPlayer.prepare();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
+
+                        // Disable other play buttons
+                        clickedPosition = position;
+                        notifyDataSetChanged();
+                        // Play
+                        mediaPlayer.seekTo(posRecordPausedAt);
                         mediaPlayer.start();
 
                         // Return to original state once file is ended
@@ -108,11 +117,12 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
                         });
                     } else {
                         //TODO pause instead of stop
-                        //mediaPlayer.pause();
+                        posRecordPausedAt = mediaPlayer.getCurrentPosition();
+                        mediaPlayer.pause();
                         //keep btnStop
                         //how to know which one to re-play:
                         //will work if disable other record buttons
-                        stopPlaying();
+                        //stopPlaying();
                     }
                 }
             });
