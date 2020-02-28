@@ -17,6 +17,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:hint="Search..."
         android:id="@+id/filter"/>
 
     <android.support.v7.widget.RecyclerView
