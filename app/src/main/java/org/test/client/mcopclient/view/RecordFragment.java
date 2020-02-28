@@ -38,7 +38,7 @@ public class RecordFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recordings,container,false);
+        View view = inflater.inflate(R.layout.fragment_recordings, container, false);
 
         myRecyclerView = (RecyclerView) view.findViewById(R.id.record_recyclerview);
         RecordRecyclerViewAdapter recordRecyclerViewAdapter = new RecordRecyclerViewAdapter(getContext(), listRecordings);
@@ -48,10 +48,12 @@ public class RecordFragment extends Fragment {
         return view;
     }
 
-    public static void updateRecordList(){
-        Log.v("Recycler: ", myRecyclerView.toString());
-        RecordRecyclerViewAdapter adapter = (RecordRecyclerViewAdapter) myRecyclerView.getAdapter();
-        //notifyItemInserted()?
-        adapter.notifyDataSetChanged();
+    public static void updateRecordList() {
+        if (myRecyclerView != null) {
+            Log.v("Recycler: ", myRecyclerView.toString());
+            RecordRecyclerViewAdapter adapter = (RecordRecyclerViewAdapter) myRecyclerView.getAdapter();
+            //notifyItemInserted()?
+            adapter.notifyDataSetChanged();
+        }
     }
 }

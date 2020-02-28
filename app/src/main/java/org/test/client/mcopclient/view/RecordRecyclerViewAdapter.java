@@ -1,7 +1,6 @@
 package org.test.client.mcopclient.view;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
@@ -42,7 +41,7 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.txtDisplayName.setText(mData.getRecordNameByIndex(position));
-        if (clickedPosition != null && clickedPosition != position){
+        if (clickedPosition != null && clickedPosition != position) {
             holder.btnPlayPause.setEnabled(false);
             holder.btnPlayPause.setImageAlpha(75);
         } else {
@@ -88,7 +87,7 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
                         btnStop.setVisibility(View.VISIBLE);
 
                         // if play since beginning
-                        if(posRecordPausedAt == 0) {
+                        if (posRecordPausedAt == 0) {
                             mediaPlayer = new MediaPlayer();
                             try {
                                 record = mData.getFullRecordNameByIndex(position);

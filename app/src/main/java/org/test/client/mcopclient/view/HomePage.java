@@ -12,7 +12,6 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
@@ -62,14 +61,22 @@ public class HomePage extends AppCompatActivity {
 
     private static GradientDrawable gradientDrawableBottomSheet;
     private MediaRecorder audioRecorder;
-    public static RecordList recordedFiles = new RecordList();
+    public static RecordList recordedFiles;
+
+    static {
+        try {
+            recordedFiles = new RecordList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private static Context ctx;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ctx=this;
+        ctx = this;
         initializeAddressBook();
         setContentView(R.layout.activity_home_page);
         Log.d(TAG, "onCreate: Starting.");
@@ -93,16 +100,16 @@ public class HomePage extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 StatusTokenType currentToken = MCOPCallManager.getCurrentStatusToken();
-                if(currentToken != NONE && event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (currentToken == IDLE) {
                         //Request token
-                        Log.d(TAG,"TOKEN REQUEST");
+                        Log.d(TAG, "TOKEN REQUEST");
                         MCOPCallManager.floorControlOperation(true);
                     }
-                }else if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_UP) {
                     if (currentToken == GRANTED) {
                         //Release token
-                        Log.d(TAG,"TOKEN RELEASE");
+                        Log.d(TAG, "TOKEN RELEASE");
                         MCOPCallManager.floorControlOperation(false);
 
                     }
@@ -181,13 +188,13 @@ public class HomePage extends AppCompatActivity {
     }
 
     public static void updateERUI() {
-        ((HomePage)ctx).runOnUiThread(new Runnable() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (MCOPCallManager.getIsERState()){
+                if (MCOPCallManager.getIsERState()) {
                     gradientDrawableBottomSheet.setColor(Color.RED);
                 } else {
-                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(ctx,R.color.colorAccent));
+                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(ctx, R.color.colorAccent));
                 }
             }
         });
@@ -199,8 +206,8 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void run() {
                 Call currentCall = MCOPCallManager.getCurrentCall();
-                if(currentCall != null)
-                tvCallName.setText(currentCall.getId());
+                if (currentCall != null)
+                    tvCallName.setText(currentCall.getId());
             }
         });
     }
@@ -210,14 +217,14 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void run() {
                 User tokenHolder = MCOPCallManager.getTokenHolder();
-                if(tokenHolder != null)
+                if (tokenHolder != null)
                     tvCallerName.setText(tokenHolder.getDisplayName());
             }
         });
     }
 
     public static void updateBtnPTT() {
-        ((HomePage)ctx).runOnUiThread(new Runnable() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Drawable background = btnPTT.getBackground();
@@ -311,7 +318,7 @@ public class HomePage extends AppCompatActivity {
     public void btnRecordOnClick(View view) {
         ImageButton btnRecord = (ImageButton) findViewById(R.id.button_record);
         MCOPCallManager.toggleRecordCall();
-        if (MCOPCallManager.getIsRecordingCall()){
+        if (MCOPCallManager.getIsRecordingCall()) {
             getAudioRecorderReady();
             btnRecord.setImageResource(R.drawable.ic_mic_red);
             try {
@@ -330,31 +337,31 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void getAudioRecorderReady() {
-        audioRecorder= new MediaRecorder();
+        audioRecorder = new MediaRecorder();
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         audioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        String recordName = Calendar.getInstance().getTime().toString()+ "_audio_record";
+        String recordName = Calendar.getInstance().getTime().toString() + "_audio_record";
         String outputFile = recordedFiles.getStorageLocation() + recordName +
                 recordedFiles.getExtension();
         recordedFiles.addRecord(recordName);
-        //RecordFragment.updateRecordList();
+        RecordFragment.updateRecordList();
         audioRecorder.setOutputFile(outputFile);
     }
 
     public void btnPerilOnClick(View view) {
         MCOPCallManager.togglePerilCall();
-        if (MCOPCallManager.getIsIPState()){
+        if (MCOPCallManager.getIsIPState()) {
             gradientDrawableBottomSheet.setColor(Color.BLUE);
         } else {
-            gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this,R.color.colorAccent));
+            gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
     }
 
     public void btnSpeakerOnClick(View view) {
         ImageButton btnSpeaker = (ImageButton) findViewById(R.id.button_mute);
         MCOPCallManager.toggleSpeaker();
-        if (MCOPCallManager.getIsSpeakerphoneOn()){
+        if (MCOPCallManager.getIsSpeakerphoneOn()) {
             btnSpeaker.setImageResource(R.drawable.volume_up);
             MCOPAudioManager.setSpeakerphoneOn();
         } else {
@@ -366,7 +373,7 @@ public class HomePage extends AppCompatActivity {
     public void btnAmbientOnClick(View view) {
         ImageButton btnAmbient = (ImageButton) findViewById(R.id.button_ambient);
         MCOPCallManager.toggleAmbientCall();
-        if (MCOPCallManager.getIsAmbientOn()){
+        if (MCOPCallManager.getIsAmbientOn()) {
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_black);
         } else {
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_grey);
