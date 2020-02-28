@@ -61,8 +61,16 @@ public class SettingsActivity extends AppCompatActivity {
         ((SettingsActivity) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvDisplayName.setText(MCOPServiceManager.AddressBook.getCurrentUser().getDisplayName());
-                tvMcpttId.setText(MCOPServiceManager.AddressBook.getCurrentUser().getMcpttID());
+                btnLogin.setVisibility(MCOPServiceManager.AddressBook.getCurrentUser() != null ?
+                        View.GONE : View.VISIBLE);
+                btnLogout.setVisibility(MCOPServiceManager.AddressBook.getCurrentUser() == null ?
+                        View.GONE : View.VISIBLE);
+
+
+                if (MCOPServiceManager.AddressBook.getCurrentUser() != null) {
+                    tvDisplayName.setText(MCOPServiceManager.AddressBook.getCurrentUser().getDisplayName());
+                    tvMcpttId.setText(MCOPServiceManager.AddressBook.getCurrentUser().getMcpttID());
+                }
 
                 btnLogin.setEnabled(!MCOPServiceManager.isUserLoggedIn());
                 btnLogout.setEnabled(MCOPServiceManager.isUserLoggedIn());
@@ -105,6 +113,8 @@ public class SettingsActivity extends AppCompatActivity {
                             uri = new URI(dataUri);
                             MCOPServiceManager.authorizeUser(uri);
                             Log.i(TAG, "Uri: " + uri.toString());
+
+                            //TODO go to home page
                         } catch (URISyntaxException e) {
                             Log.e(TAG, "Authentication Error: " + e.getMessage());
                             e.printStackTrace();
