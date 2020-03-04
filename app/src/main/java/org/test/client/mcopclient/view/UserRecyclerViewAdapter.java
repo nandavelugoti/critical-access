@@ -18,6 +18,7 @@ import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.model.calls.CallConfig;
 
+import java.io.IOException;
 import java.util.List;
 
 public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerViewAdapter.MyViewHolder> {
@@ -49,16 +50,20 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         private boolean isCallInProgress = true;
         private TextView txtDisplayName;
         private ImageView imgPhoto, imgCall;
+
+        private ImageView btnRemove;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
             txtDisplayName = (TextView) itemView.findViewById(R.id.name_group);
             imgPhoto = (ImageView) itemView.findViewById(R.id.image_group);
             imgCall = itemView.findViewById(R.id.image_call);
+
+            btnRemove = itemView.findViewById(R.id.button_remove_contact);
 
             imgCall.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,6 +77,22 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
                     isCallInProgress = !isCallInProgress;
                     imgCall.setImageResource(isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
                     HomePage.updateCallInfo();
+                }
+            });
+
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    try {
+                        User user = MCOPServiceManager.AddressBook.getUserByName(txtDisplayName.getText().toString());
+                        MCOPServiceManager.AddressBook.removeUser(user);
+                        mData.remove(user);
+                        notifyDataSetChanged();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

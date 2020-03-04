@@ -74,7 +74,11 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx=this;
-        initializeAddressBook();
+        try {
+            initializeAddressBook();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_home_page);
         Log.d(TAG, "onCreate: Starting.");
         setPermissions();
@@ -141,16 +145,20 @@ public class HomePage extends AppCompatActivity {
         MCOPServiceManager.AddressBook.clearAll();
     }
 
-    private void initializeAddressBook() {
-        // Users
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_A@organization.org", "User A"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_B@organization.org", "User B"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_C@organization.org", "User C"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_D@organization.org", "User D"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_E@organization.org", "User E"));
+    private void initializeAddressBook() throws IOException {
+        // load from local data
+         MCOPServiceManager.AddressBook.load_contacts();
+         MCOPServiceManager.AddressBook.load_groups();
+
+        // Users (optional)
+//        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_A@organization.org", "User A"));
+//        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_B@organization.org", "User B"));
+//        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_C@organization.org", "User C"));
+//        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_D@organization.org", "User D"));
+//        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_E@organization.org", "User E"));
 
         // Groups
-        MCOPServiceManager.AddressBook.addGroup(new Group("sip:iit2_group@organization.org", "Group 2"));
+//        MCOPServiceManager.AddressBook.addGroup(new Group("sip:iit2_group@organization.org", "Group 2"));
     }
 
     private void setupViewPager(ViewPager viewPager) {

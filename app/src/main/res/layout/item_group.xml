@@ -14,30 +14,32 @@
         app:srcCompat="@drawable/main_btn" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:paddingTop="10dp"
-        android:orientation="vertical">
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/name_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:text="Group name"
             android:textStyle="bold">
 
         </TextView>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/button_remove_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical">
+            android:layout_gravity="center_horizontal|end"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_delete" />
 
 
         <ImageView
@@ -46,7 +48,35 @@
             android:layout_height="25dp"
             android:layout_gravity="center_horizontal|end"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/baseline_call_black_18dp"/>
+            android:paddingStart="20dp"
+            app:srcCompat="@drawable/baseline_call_black_18dp" />
+
     </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:orientation="vertical">-->
+<!--        -->
+<!--        <ImageView-->
+<!--            android:id="@+id/button_remove_contact"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:paddingStart="20dp"-->
+<!--            android:layout_gravity="center_horizontal|end"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            app:srcCompat="@drawable/ic_delete"/>-->
+
+
+<!--        <ImageView-->
+<!--            android:id="@+id/image_call"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_gravity="center_horizontal|end"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            app:srcCompat="@drawable/baseline_call_black_18dp"/>-->
+<!--    </LinearLayout>-->
 
 </LinearLayout>

@@ -16,8 +16,10 @@ import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.Group;
+import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.model.calls.CallConfig;
 
+import java.io.IOException;
 import java.util.List;
 
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecyclerViewAdapter.MyViewHolder> {
@@ -49,16 +51,20 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         private boolean isCallInProgress = false;
         private TextView txtDisplayName;
         private ImageView imgPhoto, imgCall;
+
+        private ImageView btnRemove;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
             txtDisplayName = (TextView) itemView.findViewById(R.id.name_group);
             imgPhoto = (ImageView) itemView.findViewById(R.id.image_group);
             imgCall = itemView.findViewById(R.id.image_call);
+
+            btnRemove = itemView.findViewById(R.id.button_remove_contact);
 
             imgCall.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,6 +78,22 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                     isCallInProgress = !isCallInProgress;
                     imgCall.setImageResource(!isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
                     HomePage.updateCallInfo();
+                }
+            });
+
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    try {
+                        Group group = MCOPServiceManager.AddressBook.getGroupByName(txtDisplayName.getText().toString());
+                        MCOPServiceManager.AddressBook.removeGroup(group);
+                        mData.remove(group);
+                        notifyDataSetChanged();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
