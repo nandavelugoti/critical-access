@@ -66,7 +66,6 @@ public class SettingsActivity extends AppCompatActivity {
                 btnLogout.setVisibility(MCOPServiceManager.AddressBook.getCurrentUser() == null ?
                         View.GONE : View.VISIBLE);
 
-
                 if (MCOPServiceManager.AddressBook.getCurrentUser() != null) {
                     tvDisplayName.setText(MCOPServiceManager.AddressBook.getCurrentUser().getDisplayName());
                     tvMcpttId.setText(MCOPServiceManager.AddressBook.getCurrentUser().getMcpttID());
@@ -114,7 +113,10 @@ public class SettingsActivity extends AppCompatActivity {
                             MCOPServiceManager.authorizeUser(uri);
                             Log.i(TAG, "Uri: " + uri.toString());
 
-                            //TODO go to home page
+                            // Go to home page once logged in
+                            Intent intent = new Intent(this, HomePage.class);
+                            startActivity(intent);
+
                         } catch (URISyntaxException e) {
                             Log.e(TAG, "Authentication Error: " + e.getMessage());
                             e.printStackTrace();
