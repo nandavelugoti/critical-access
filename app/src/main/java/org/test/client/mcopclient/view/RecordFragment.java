@@ -52,7 +52,6 @@ public class RecordFragment extends Fragment {
         if (myRecyclerView != null) {
             Log.v("Recycler: ", myRecyclerView.toString());
             RecordRecyclerViewAdapter adapter = (RecordRecyclerViewAdapter) myRecyclerView.getAdapter();
-            //notifyItemInserted()?
             adapter.notifyDataSetChanged();
         }
     }

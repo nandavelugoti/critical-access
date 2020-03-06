@@ -15,7 +15,7 @@ public class AddressBook {
         this.currentUser = currentUser;
     }
 
-    private User currentUser = new User("Current User ID", "Current User Name");
+    private User currentUser;
 
     public void addUser(User user) {
         users.add(user);

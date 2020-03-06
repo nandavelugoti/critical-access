@@ -341,7 +341,7 @@ public class HomePage extends AppCompatActivity {
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         audioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        String recordName = Calendar.getInstance().getTime().toString() + "_audio_record";
+        String recordName = Calendar.getInstance().getTime().toString();
         String outputFile = recordedFiles.getStorageLocation() + recordName +
                 recordedFiles.getExtension();
         recordedFiles.addRecord(recordName);

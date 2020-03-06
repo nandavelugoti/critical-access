@@ -52,5 +52,7 @@
     <string name="logout">Logout</string>
     <string name="authentication_setting">Authentication Setting</string>
     <string name="registration_setting">Registration Setting</string>
+    <string name="about">About</string>
+    <string name="about_text">Critical Access\nVersion 1.1</string>
 
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SettingsActivity">
+    tools:context=".view.LoginActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,19 +29,7 @@
                     android:maxWidth="64sp"
                     android:gravity="center_horizontal"
                     android:layout_margin="16sp" />
-                <TextView
-                    android:id="@+id/tv_display_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="32sp"
-                    android:text="Display Name" />
-                <TextView
-                    android:id="@+id/tv_mcptt_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16sp"
-                    android:text="MCPTT ID" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -51,14 +39,13 @@
                 android:orientation="horizontal"
                 android:layout_margin="16sp">
                 <Button
-                    android:id="@+id/btn_logout"
+                    android:id="@+id/btn_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/logout"
-                    android:textColor="@color/white"
-                    android:onClick="btnLogoutOnClick"
+                    android:text="@string/login"
+                    android:onClick="btnLoginOnClick"
                     android:layout_margin="16sp"
-                    android:backgroundTint="@color/unregistered"
+                    android:backgroundTint="@color/colorAccent"
                     />
             </LinearLayout>
 
@@ -71,16 +58,59 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/about"
+                    android:text="@string/authentication_setting"
                     android:textSize="24sp"
                     android:textStyle="bold" />
+                <RadioGroup
+                    android:id="@+id/rg_authentication"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16sp">
+                    <RadioButton
+                        android:id="@+id/rb_idms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IdMS/CMS"
+                        android:onClick="rbIdMSClick"/>
+                    <RadioButton
+                        android:id="@+id/rb_no_auth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Authentication"
+                        android:onClick="rbNoAuthOnClick"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="16sp"
+                android:gravity="center">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/about_text"
-                    android:textSize="16sp"/>
-
+                    android:text="@string/registration_setting"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+                <RadioGroup
+                    android:id="@+id/rg_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16sp">
+                    <RadioButton
+                        android:id="@+id/rb_auto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Auto"
+                        android:onClick="rbAutoOnClick"/>
+                    <RadioButton
+                        android:id="@+id/rb_manual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manual"
+                        android:onClick="rbManualOnClick"/>
+                </RadioGroup>
             </LinearLayout>
 
         </LinearLayout>
