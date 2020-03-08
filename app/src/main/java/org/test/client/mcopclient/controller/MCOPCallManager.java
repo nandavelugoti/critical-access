@@ -177,7 +177,7 @@ public class MCOPCallManager {
         MCOPCallManager.isAmbientOn = isAmbientOn;
     }
 
-    public static boolean getIsVideoCall() {
+    public static boolean getIsRecordingCall() {
         return isVideoCall;
     }
 
@@ -201,7 +201,7 @@ public class MCOPCallManager {
         MCOPCallManager.isIPState = isIPState;
     }
 
-    public static void toggleVideoCall() {
+    public static void toggleRecordCall() {
         isVideoCall = !isVideoCall;
     }
 

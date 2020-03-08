@@ -12,7 +12,6 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
@@ -36,19 +35,14 @@ import org.test.client.mcopclient.controller.MCOPAudioManager;
 import org.test.client.mcopclient.controller.MCOPCallManager;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
 import org.test.client.mcopclient.model.Group;
+import org.test.client.mcopclient.model.RecordList;
 import org.test.client.mcopclient.model.User;
 import org.test.client.mcopclient.model.calls.Call;
-import org.test.client.mcopclient.model.calls.CallConfig;
-import org.test.client.mcopclient.model.calls.CallType;
-import org.test.client.mcopclient.model.calls.EmergencyType;
-import org.test.client.mcopclient.model.calls.FloorControlType;
-import org.test.client.mcopclient.model.calls.MediaType;
 import org.test.client.mcopclient.model.calls.StatusTokenType;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static org.test.client.mcopclient.model.calls.StatusTokenType.GRANTED;
 import static org.test.client.mcopclient.model.calls.StatusTokenType.IDLE;
@@ -67,18 +61,23 @@ public class HomePage extends AppCompatActivity {
 
     private static GradientDrawable gradientDrawableBottomSheet;
     private MediaRecorder audioRecorder;
+    public static RecordList recordedFiles;
+
+    static {
+        try {
+            recordedFiles = new RecordList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private static Context ctx;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ctx=this;
-        try {
-            initializeAddressBook();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ctx = this;
+        initializeAddressBook();
         setContentView(R.layout.activity_home_page);
         Log.d(TAG, "onCreate: Starting.");
         setPermissions();
@@ -101,16 +100,16 @@ public class HomePage extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 StatusTokenType currentToken = MCOPCallManager.getCurrentStatusToken();
-                if(currentToken != NONE && event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (currentToken == IDLE) {
                         //Request token
-                        Log.d(TAG,"TOKEN REQUEST");
+                        Log.d(TAG, "TOKEN REQUEST");
                         MCOPCallManager.floorControlOperation(true);
                     }
-                }else if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (currentToken != NONE && event.getAction() == MotionEvent.ACTION_UP) {
                     if (currentToken == GRANTED) {
                         //Release token
-                        Log.d(TAG,"TOKEN RELEASE");
+                        Log.d(TAG, "TOKEN RELEASE");
                         MCOPCallManager.floorControlOperation(false);
 
                     }
@@ -136,7 +135,7 @@ public class HomePage extends AppCompatActivity {
         Drawable background = bottomSheet.getBackground();
         gradientDrawableBottomSheet = (GradientDrawable) background;
 
-        getAudioRecorderReady();
+        //getAudioRecorderReady();
     }
 
     @Override
@@ -165,6 +164,7 @@ public class HomePage extends AppCompatActivity {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new GroupFragment(), "Groups");
         adapter.addFragment(new ContactFragment(), "Contacts");
+        adapter.addFragment(new RecordFragment(), "Recordings");
         viewPager.setAdapter(adapter);
     }
 
@@ -192,13 +192,13 @@ public class HomePage extends AppCompatActivity {
     }
 
     public static void updateERUI() {
-        ((HomePage)ctx).runOnUiThread(new Runnable() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (MCOPCallManager.getIsERState()){
+                if (MCOPCallManager.getIsERState()) {
                     gradientDrawableBottomSheet.setColor(Color.RED);
                 } else {
-                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(ctx,R.color.colorAccent));
+                    gradientDrawableBottomSheet.setColor(ContextCompat.getColor(ctx, R.color.colorAccent));
                 }
             }
         });
@@ -210,8 +210,8 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void run() {
                 Call currentCall = MCOPCallManager.getCurrentCall();
-                if(currentCall != null)
-                tvCallName.setText(currentCall.getId());
+                if (currentCall != null)
+                    tvCallName.setText(currentCall.getId());
             }
         });
     }
@@ -221,14 +221,14 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void run() {
                 User tokenHolder = MCOPCallManager.getTokenHolder();
-                if(tokenHolder != null)
+                if (tokenHolder != null)
                     tvCallerName.setText(tokenHolder.getDisplayName());
             }
         });
     }
 
     public static void updateBtnPTT() {
-        ((HomePage)ctx).runOnUiThread(new Runnable() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Drawable background = btnPTT.getBackground();
@@ -267,24 +267,14 @@ public class HomePage extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.RECORD_AUDIO)) {
-                //Show an explanation to the user *asynchronously* -- don't block
-                //this thread waiting for the user's response! After the user
-                //sees the explanation, request the permission again.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
-                        GET_PERMISSION);
-            } else {
-                //No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
-                        GET_PERMISSION);
+            //No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
+                    GET_PERMISSION);
 
-                //MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                //app-defined int constant. The callback method gets the
-                //result of the request.
-            }
+            //MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            //app-defined int constant. The callback method gets the
+            //result of the request.
         }
     }
 
@@ -329,51 +319,53 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    public void btnVideoOnClick(View view) {
-        ImageButton btnVideo = (ImageButton) findViewById(R.id.button_video);
-        MCOPCallManager.toggleVideoCall();
-        if (MCOPCallManager.getIsVideoCall()){
-            btnVideo.setImageResource(R.drawable.ic_mic_red);
+    public void btnRecordOnClick(View view) {
+        ImageButton btnRecord = (ImageButton) findViewById(R.id.button_record);
+        MCOPCallManager.toggleRecordCall();
+        if (MCOPCallManager.getIsRecordingCall()) {
+            getAudioRecorderReady();
+            btnRecord.setImageResource(R.drawable.ic_mic_red);
             try {
                 audioRecorder.prepare();
                 audioRecorder.start();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (IllegalStateException | IOException e) {
                 e.printStackTrace();
             }
             Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
         } else {
-            btnVideo.setImageResource(R.drawable.ic_mic_black);
+            btnRecord.setImageResource(R.drawable.ic_mic_black);
             audioRecorder.stop();
             audioRecorder.release();
-            getAudioRecorderReady();
             Toast.makeText(getApplicationContext(), "Recording stopped", Toast.LENGTH_LONG).show();
         }
     }
 
     private void getAudioRecorderReady() {
-        audioRecorder= new MediaRecorder();
+        audioRecorder = new MediaRecorder();
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         audioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+        String recordName = Calendar.getInstance().getTime().toString() + "_audio_record";
+        String outputFile = recordedFiles.getStorageLocation() + recordName +
+                recordedFiles.getExtension();
+        recordedFiles.addRecord(recordName);
+        RecordFragment.updateRecordList();
         audioRecorder.setOutputFile(outputFile);
     }
 
     public void btnPerilOnClick(View view) {
         MCOPCallManager.togglePerilCall();
-        if (MCOPCallManager.getIsIPState()){
+        if (MCOPCallManager.getIsIPState()) {
             gradientDrawableBottomSheet.setColor(Color.BLUE);
         } else {
-            gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this,R.color.colorAccent));
+            gradientDrawableBottomSheet.setColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
     }
 
     public void btnSpeakerOnClick(View view) {
         ImageButton btnSpeaker = (ImageButton) findViewById(R.id.button_mute);
         MCOPCallManager.toggleSpeaker();
-        if (MCOPCallManager.getIsSpeakerphoneOn()){
+        if (MCOPCallManager.getIsSpeakerphoneOn()) {
             btnSpeaker.setImageResource(R.drawable.volume_up);
             MCOPAudioManager.setSpeakerphoneOn();
         } else {
@@ -385,7 +377,7 @@ public class HomePage extends AppCompatActivity {
     public void btnAmbientOnClick(View view) {
         ImageButton btnAmbient = (ImageButton) findViewById(R.id.button_ambient);
         MCOPCallManager.toggleAmbientCall();
-        if (MCOPCallManager.getIsAmbientOn()){
+        if (MCOPCallManager.getIsAmbientOn()) {
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_black);
         } else {
             btnAmbient.setImageResource(R.drawable.ic_speaker_phone_grey);
