@@ -81,8 +81,9 @@ public class CallEvent implements EventListener {
                 default:
                     break;
             }
-            HomePage.updateCallInfo();
-            HomePage.updateCallerInfo();
+            HomePage.updateCallStatus();
+            HomePage.updateCaller();
+            HomePage.updateCallerId();
             HomePage.updateBtnPTT();
             HomePage.updateERUI();
         }

@@ -61,8 +61,10 @@ public class SettingsActivity extends AppCompatActivity {
         ((SettingsActivity) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvDisplayName.setText(MCOPServiceManager.AddressBook.getCurrentUser().getDisplayName());
-                tvMcpttId.setText(MCOPServiceManager.AddressBook.getCurrentUser().getMcpttID());
+                if(MCOPServiceManager.AddressBook.getCurrentUser() != null) {
+                    tvDisplayName.setText(MCOPServiceManager.AddressBook.getCurrentUser().getDisplayName());
+                    tvMcpttId.setText(MCOPServiceManager.AddressBook.getCurrentUser().getMcpttID());
+                }
 
                 btnLogin.setEnabled(!MCOPServiceManager.isUserLoggedIn());
                 btnLogout.setEnabled(MCOPServiceManager.isUserLoggedIn());

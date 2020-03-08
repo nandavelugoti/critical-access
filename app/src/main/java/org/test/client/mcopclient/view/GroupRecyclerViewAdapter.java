@@ -71,7 +71,8 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                     }
                     isCallInProgress = !isCallInProgress;
                     imgCall.setImageResource(!isCallInProgress ? R.drawable.baseline_call_black_18dp: R.drawable.baseline_call_end_black_18dp);
-                    HomePage.updateCallInfo();
+                    HomePage.updateCallerId();
+                    HomePage.updateCaller();
                 }
             });
         }
