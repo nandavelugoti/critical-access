@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Project.iml" filepath="$PROJECT_DIR$/Project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/Project-app.iml" filepath="$PROJECT_DIR$/app/Project-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/critical-access.iml" filepath="$PROJECT_DIR$/critical-access.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mcop-test-gui-GIT.iml" filepath="$PROJECT_DIR$/mcop-test-gui-GIT.iml" />
     </modules>
   </component>
 </project>
