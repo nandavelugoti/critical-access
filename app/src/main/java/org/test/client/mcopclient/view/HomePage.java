@@ -56,8 +56,11 @@ public class HomePage extends AppCompatActivity {
     private ViewPager mViewPager;
     private static Button btnPTT;
     private View bottomSheet;
-    private static TextView tvCallerName;
-    private static TextView tvCallName;
+    private static TextView tvCallStatus;
+    private static TextView tvCaller;
+    private static TextView tvGroup;
+    private static TextView tvCallerId;
+    private static TextView tvGroupId;
 
     private static GradientDrawable gradientDrawableBottomSheet;
     private MediaRecorder audioRecorder;
@@ -119,8 +122,12 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        tvCallerName = findViewById(R.id.caller);
-        tvCallName = findViewById(R.id.bottomsheet_text);
+        tvCallStatus = findViewById(R.id.call_status);
+        tvCaller = findViewById(R.id.caller);
+        tvGroup = findViewById(R.id.caller_group);
+        tvCallerId = findViewById(R.id.caller_id);
+        tvGroupId = findViewById(R.id.caller_group_id);
+
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -205,24 +212,56 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    public static void updateCallInfo() {
+    public static void updateCallStatus() {
         ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Call currentCall = MCOPCallManager.getCurrentCall();
-                if (currentCall != null)
-                    tvCallName.setText(currentCall.getId());
+                StatusTokenType status = MCOPCallManager.getCurrentStatusToken();
+                tvCallStatus.setText(status.toString());
             }
         });
     }
 
-    public static void updateCallerInfo() {
+    public static void updateCaller() {
         ((HomePage) ctx).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 User tokenHolder = MCOPCallManager.getTokenHolder();
-                if (tokenHolder != null)
-                    tvCallerName.setText(tokenHolder.getDisplayName());
+                if(tokenHolder != null)
+                    tvCaller.setText(tokenHolder.getDisplayName());
+            }
+        });
+    }
+
+    public static void updateGroup() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Group group = MCOPCallManager.getCurrentGroup();
+                if(group != null)
+                    tvGroup.setText(group.getDisplayName());
+            }
+        });
+    }
+
+    public static void updateCallerId() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                User tokenHolder = MCOPCallManager.getTokenHolder();
+                if(tokenHolder != null)
+                    tvCallerId.setText(tokenHolder.getMcpttID());
+            }
+        });
+    }
+
+    public static void updateGroupId() {
+        ((HomePage) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Group group = MCOPCallManager.getCurrentGroup();
+                if(group != null)
+                    tvGroupId.setText(group.getMcpttID());
             }
         });
     }

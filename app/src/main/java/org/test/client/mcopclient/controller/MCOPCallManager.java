@@ -30,6 +30,14 @@ public class MCOPCallManager {
 
     private static Call currentCall;
     private static Map<String, Call> sessionCallMap = new HashMap<>();
+    private static Group currentGroup;
+    public static Group getCurrentGroup() {
+        return  currentGroup;
+    }
+
+    public static void setCurrentGroup(Group group) {
+        currentGroup = group;
+    }
 
     public static User getTokenHolder() {
         return tokenHolder;

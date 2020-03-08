@@ -5,6 +5,9 @@ import android.widget.Toast;
 
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
+import org.test.client.mcopclient.controller.MCOPCallManager;
+import org.test.client.mcopclient.controller.MCOPServiceManager;
+import org.test.client.mcopclient.view.HomePage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +34,8 @@ public class GroupAffiliationEvent implements EventListener {
                         String stringError = action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.ERROR_STRING);
                         Toast.makeText(CriticalAccess.getContext(), stringError, Toast.LENGTH_SHORT).show();
                         String groupID = action.getStringExtra(ConstantsMCOP.GroupAffiliationEventExtras.GROUP_ID);
+                        MCOPCallManager.setCurrentGroup(MCOPServiceManager.AddressBook.getGroup(groupID));
+
                         Toast.makeText(CriticalAccess.getContext(), "Group Affiliation: " + groupID, Toast.LENGTH_SHORT).show();
                     }
                     break;
@@ -41,6 +46,7 @@ public class GroupAffiliationEvent implements EventListener {
             }
         } else {
         }
-
+        HomePage.updateGroup();
+        HomePage.updateGroupId();
     }
 }

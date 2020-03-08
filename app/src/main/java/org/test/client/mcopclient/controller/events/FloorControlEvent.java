@@ -77,7 +77,8 @@ public class FloorControlEvent implements EventListener {
                         break;
                 }
                 HomePage.updateBtnPTT();
-                HomePage.updateCallerInfo();
+                HomePage.updateCallerId();
+                HomePage.updateCaller();
             } catch (Exception e) {
 
             }
