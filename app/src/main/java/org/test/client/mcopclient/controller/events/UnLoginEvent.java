@@ -28,11 +28,11 @@ public class UnLoginEvent implements EventListener {
             boolean success = false;
             if ((success = action.getBooleanExtra(ConstantsMCOP.UnLoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) == true) {
                 MCOPServiceManager.updateCurrentUser("N/A", "N/A", false);
-                SettingsActivity.logoutSuccessful();
 
             } else {
                 Log.e(TAG, "Error: Unregistration process");
             }
         }
+        SettingsActivity.logoutSuccessful();
     }
 }
