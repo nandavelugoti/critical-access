@@ -29,6 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final int AUTHETICATION_RESULT = 101;
     private static final String PARAMETER_PROFILE = "parameters";
 
+    public static void loginSuccessful() {
+        Intent intent = new Intent(LoginActivity.ctx, HomePage.class);
+        LoginActivity.ctx.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
