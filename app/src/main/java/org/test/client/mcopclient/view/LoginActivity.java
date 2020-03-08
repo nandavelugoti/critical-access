@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
-        MCOPServiceManager.initialize(strings);
+        //MCOPServiceManager.initialize(strings);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);

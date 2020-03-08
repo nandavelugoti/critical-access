@@ -85,8 +85,8 @@ public class HomePage extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
-            MCOPServiceManager.initialize(strings);
+           // ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
+            //MCOPServiceManager.initialize(strings);
         }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -146,14 +146,15 @@ public class HomePage extends AppCompatActivity {
 
     private void initializeAddressBook() {
         // Users
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_A@organization.org", "User A"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_B@organization.org", "User B"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_C@organization.org", "User C"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_D@organization.org", "User D"));
-        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_id_iit2_E@organization.org", "User E"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_nanda_A@organization.org", "User A"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_nanda_B@organization.org", "User B"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_nanda_C@organization.org", "User C"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_nanda_D@organization.org", "User D"));
+        MCOPServiceManager.AddressBook.addUser(new User("sip:mcptt_nanda_E@organization.org", "User E"));
 
         // Groups
-        MCOPServiceManager.AddressBook.addGroup(new Group("sip:iit2_group@organization.org", "Group 2"));
+        MCOPServiceManager.AddressBook.addGroup(new Group("sip:nanda" +
+                "_group@organization.org", "Group 2"));
     }
 
     private void setupViewPager(ViewPager viewPager) {
