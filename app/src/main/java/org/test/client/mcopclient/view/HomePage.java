@@ -80,7 +80,11 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx = this;
-        initializeAddressBook();
+        try {
+            initializeAddressBook();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_home_page);
         Log.d(TAG, "onCreate: Starting.");
         setPermissions();
@@ -148,7 +152,11 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MCOPServiceManager.AddressBook.clearAll();
+        try {
+            MCOPServiceManager.AddressBook.clearAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeAddressBook() throws IOException {
