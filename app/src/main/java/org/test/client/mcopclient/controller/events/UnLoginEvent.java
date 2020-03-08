@@ -7,6 +7,8 @@ import android.widget.Toast;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
+import org.test.client.mcopclient.view.LoginActivity;
+import org.test.client.mcopclient.view.SettingsActivity;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
 import static org.test.client.mcopclient.ConstantsMCOP.VALUE_BOOLEAN_DEFAULT;
@@ -26,9 +28,11 @@ public class UnLoginEvent implements EventListener {
             boolean success = false;
             if ((success = action.getBooleanExtra(ConstantsMCOP.UnLoginEventExtras.SUCCESS, VALUE_BOOLEAN_DEFAULT)) == true) {
                 MCOPServiceManager.updateCurrentUser("N/A", "N/A", false);
+
             } else {
                 Log.e(TAG, "Error: Unregistration process");
             }
         }
+        SettingsActivity.logoutSuccessful();
     }
 }

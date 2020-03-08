@@ -85,8 +85,8 @@ public class HomePage extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
-            MCOPServiceManager.initialize(strings);
+           // ArrayList<String> strings = getIntent().getStringArrayListExtra(PARAMETER_PROFILE);
+            //MCOPServiceManager.initialize(strings);
         }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -345,7 +345,7 @@ public class HomePage extends AppCompatActivity {
         audioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         audioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         audioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        String recordName = Calendar.getInstance().getTime().toString() + "_audio_record";
+        String recordName = Calendar.getInstance().getTime().toString();
         String outputFile = recordedFiles.getStorageLocation() + recordName +
                 recordedFiles.getExtension();
         recordedFiles.addRecord(recordName);

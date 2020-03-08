@@ -18,12 +18,6 @@ public class RecordList {
         this.extension = ".3gp";
     }
 
-    public RecordList(List<String> listRecordings) {
-        this.listRecordings = listRecordings;
-        this.storageLocation = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-        this.extension = ".3gp";
-    }
-
     public List<String> getListRecordings() {
         return this.listRecordings;
     }

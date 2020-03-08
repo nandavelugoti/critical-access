@@ -7,6 +7,7 @@ import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.view.HomePage;
+import org.test.client.mcopclient.view.LoginActivity;
 import org.test.client.mcopclient.view.ScreenAuthenticationWebView;
 import org.test.client.mcopclient.view.SettingsActivity;
 
@@ -30,7 +31,7 @@ public class AuthorizationRequestEvent implements EventListener {
             ) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "onAuthentication URI: " + requestUri + " redirectionURI: " + redirect);
-                SettingsActivity.startLogin(requestUri, redirect);
+                LoginActivity.startLogin(requestUri, redirect);
             }
         }
     }

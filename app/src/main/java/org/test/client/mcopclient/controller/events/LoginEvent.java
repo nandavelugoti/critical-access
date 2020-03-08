@@ -8,6 +8,7 @@ import org.test.client.mcopclient.BuildConfig;
 import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.controller.MCOPServiceManager;
+import org.test.client.mcopclient.view.LoginActivity;
 
 import static org.test.client.mcopclient.ConstantsMCOP.ERROR_CODE_DEFAULT;
 import static org.test.client.mcopclient.ConstantsMCOP.VALUE_BOOLEAN_DEFAULT;
@@ -34,6 +35,7 @@ public class LoginEvent implements EventListener {
                     Log.d(TAG, "Login success: " + success + " mcptt_id: " + mcptt_id);
                 displayName = action.getStringExtra(ConstantsMCOP.LoginEventExtras.DISPLAY_NAME);
                 MCOPServiceManager.updateCurrentUser(mcptt_id, displayName, true);
+                LoginActivity.loginSuccessful();
             } else {
                 Log.e(TAG, "Error: Registration process");
             }

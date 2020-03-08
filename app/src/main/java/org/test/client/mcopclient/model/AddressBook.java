@@ -24,7 +24,7 @@ public class AddressBook {
         this.currentUser = currentUser;
     }
 
-    private User currentUser = new User("Current User ID", "Current User Name");
+    private User currentUser;
 
 //    public static String readInternal(String filePathName) throws IOException {
 //        StringBuffer stringBuffer = new StringBuffer();

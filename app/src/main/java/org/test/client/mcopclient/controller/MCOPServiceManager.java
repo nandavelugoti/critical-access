@@ -17,6 +17,7 @@ import org.test.client.mcopclient.ConstantsMCOP;
 import org.test.client.mcopclient.CriticalAccess;
 import org.test.client.mcopclient.model.AddressBook;
 import org.test.client.mcopclient.model.User;
+import org.test.client.mcopclient.view.LoginActivity;
 import org.test.client.mcopclient.view.SettingsActivity;
 
 import java.net.URI;
@@ -122,13 +123,13 @@ public class MCOPServiceManager {
         User currentUser = new User(mcptt_id, displayName);
         AddressBook.setCurrentUser(currentUser);
         isUserLoggedIn = loggedIn;
-        SettingsActivity.updateUI();
+        LoginActivity.updateUI();
     }
 
     public static void authorizeUser(URI uri) {
         mConnection.authorizeUser(uri);
         AddressBook.setCurrentUser(new User(uri.toString(), uri.toString()));
         isUserLoggedIn = true;
-        SettingsActivity.updateUI();
+        LoginActivity.updateUI();
     }
 }
