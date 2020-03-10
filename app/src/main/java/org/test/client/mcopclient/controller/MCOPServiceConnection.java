@@ -71,7 +71,7 @@ public class MCOPServiceConnection implements ServiceConnection {
             // CMS
             try {
                 if (mService != null)
-                    mService.authorizeUser(null);
+                    mService.authorizeUser(MCOPServiceManager.AddressBook.getCurrentUser().getMcpttID());
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
