@@ -225,7 +225,7 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void run() {
                 StatusTokenType status = MCOPCallManager.getCurrentStatusToken();
-                tvCallStatus.setText(status.toString());
+                tvCallStatus.setText("Call Status: "+status.toString());
             }
         });
     }
@@ -236,7 +236,7 @@ public class HomePage extends AppCompatActivity {
             public void run() {
                 User tokenHolder = MCOPCallManager.getTokenHolder();
                 if(tokenHolder != null)
-                    tvCaller.setText(tokenHolder.getDisplayName());
+                    tvCaller.setText("Caller Profile: " + tokenHolder.getDisplayName());
             }
         });
     }
@@ -247,7 +247,7 @@ public class HomePage extends AppCompatActivity {
             public void run() {
                 Group group = MCOPCallManager.getCurrentGroup();
                 if(group != null)
-                    tvGroup.setText(group.getDisplayName());
+                    tvGroup.setText("Group: " + group.getDisplayName());
             }
         });
     }
@@ -258,7 +258,7 @@ public class HomePage extends AppCompatActivity {
             public void run() {
                 User tokenHolder = MCOPCallManager.getTokenHolder();
                 if(tokenHolder != null)
-                    tvCallerId.setText(tokenHolder.getMcpttID());
+                    tvCallerId.setText("Caller ID: " + tokenHolder.getMcpttID());
             }
         });
     }
@@ -269,7 +269,7 @@ public class HomePage extends AppCompatActivity {
             public void run() {
                 Group group = MCOPCallManager.getCurrentGroup();
                 if(group != null)
-                    tvGroupId.setText(group.getMcpttID());
+                    tvGroupId.setText("Group ID: " + group.getMcpttID());
             }
         });
     }
