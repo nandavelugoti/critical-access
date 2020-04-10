@@ -142,7 +142,11 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MCOPServiceManager.AddressBook.clearAll();
+        try {
+            MCOPServiceManager.AddressBook.clearAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeAddressBook() throws IOException {
